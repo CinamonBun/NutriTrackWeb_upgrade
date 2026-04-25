@@ -1,0 +1,74 @@
+import React, { useState, useEffect } from 'react';
+
+export default function Header() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isSticky, setIsSticky] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsSticky(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    return (
+        <header id="sticky-header" className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ease-in-out ${isSticky ? 'py-3 bg-[#ffffff]/80 text-black dark:bg-[#2a2a2a]/80 dark:text-white backdrop-blur-lg shadow-sm' : 'py-5 lg:py-6 bg-transparent text-black dark:text-white'}`}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav className="relative flex justify-between items-center">
+                    <div className="flex items-center">
+                        <h1 className="text-2xl font-bold">NutriTrack+</h1>
+                    </div>
+                    <ul className="hidden md:flex items-center space-x-8">
+                        <li><a href="index.php" className="transform transition-colors hover:text-[#3dccc7]">Home</a></li>
+                        <li><a href="about.php" className="transform transition-colors hover:text-[#3dccc7]">About Us</a></li>
+                        <li><a href="features.php" className="transform transition-colors hover:text-[#3dccc7]">Features</a></li>
+                        <li><a href="riviews.php" className="transform transition-colors hover:text-[#3dccc7]">Riviews</a></li>
+                        <li><a href="#" className="transform transition-colors hover:text-[#3dccc7]">Download</a></li>
+                    </ul>
+                    <div className="hidden md:flex items-center space-x-3">
+                        <a href="signin.php"
+                            className="whitespace-nowrap transition duration-200 hover:text-[#3dccc7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none">
+                            Sign In
+                        </a>
+                        <a href="signup.php"
+                            className="inline-flex justify-center gap-2 text-white bg-[#3dccc7] hover:bg-[#68d8d6] px-4 py-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                            Sign Up
+                        </a>
+                    </div>
+                    <div className="md:hidden">
+                        <button id="menu-toggle-btn" onClick={toggleMenu} type="button" aria-expanded={isMenuOpen} aria-controls="mobile-menu"
+                            aria-label="Toggle navigation" className="p-2 rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#3dccc7]">
+                            <svg id="menu-icon" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                    d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"} />
+                            </svg>
+                        </button>
+                    </div>
+                </nav>
+                <div id="mobile-menu" className={`md:hidden mt-3 ${isMenuOpen ? 'block' : 'hidden'}`}>
+                    <div className="mobile-menu-panel bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-colors duration-300 shadow-lg rounded-xl p-6 space-y-4">
+                        <div className="flex flex-col space-y-3">
+                            <a href="index.php" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Home</a>
+                            <a href="about.php" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">About Us</a>
+                            <a href="features.php" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Features</a>
+                            <a href="riviews.php" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Riviews</a>
+                            <a href="#" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Download</a>
+                        </div>
+                        <div className="flex flex-col gap-3 py-3 border-t border-neutral-200 dark:border-neutral-700">
+                            <a href="signin.php"
+                                className="inline-flex justify-center items-center gap-2 text-sm font-medium rounded-md py-2 px-4 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-colors duration-300 hover:text-[#3dccc7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#3dccc7]">Sign In</a>
+                            <a href="signup.php"
+                                className="inline-flex justify-center items-center gap-2 text-sm font-medium rounded-md py-2 px-4 text-white bg-[#3dccc7] hover:bg-[#68d8d6] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#3dccc7]">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    );
+}
