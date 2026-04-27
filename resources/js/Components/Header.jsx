@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from '@inertiajs/react';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,21 +25,21 @@ export default function Header() {
                         <h1 className="text-2xl font-bold">NutriTrack+</h1>
                     </div>
                     <ul className="hidden md:flex items-center space-x-8">
-                        <li><a href="index.php" className="transform transition-colors hover:text-[#3dccc7]">Home</a></li>
-                        <li><a href="about.php" className="transform transition-colors hover:text-[#3dccc7]">About Us</a></li>
-                        <li><a href="features.php" className="transform transition-colors hover:text-[#3dccc7]">Features</a></li>
-                        <li><a href="riviews.php" className="transform transition-colors hover:text-[#3dccc7]">Riviews</a></li>
-                        <li><a href="#" className="transform transition-colors hover:text-[#3dccc7]">Download</a></li>
+                        <li><Link href="/" className="transform transition-colors hover:text-[#3dccc7]">Home</Link></li>
+                        <li><Link href="/about" className="transform transition-colors hover:text-[#3dccc7]">About Us</Link></li>
+                        <li><Link href="/features" className="transform transition-colors hover:text-[#3dccc7]">Features</Link></li>
+                        <li><Link href="/riviews" className="transform transition-colors hover:text-[#3dccc7]">Riviews</Link></li>
+                        <li><Link href="#" className="transform transition-colors hover:text-[#3dccc7]">Download</Link></li>
                     </ul>
                     <div className="hidden md:flex items-center space-x-3">
-                        <a href="signin.php"
+                        <Link href="/signin"
                             className="whitespace-nowrap transition duration-200 hover:text-[#3dccc7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none">
                             Sign In
-                        </a>
-                        <a href="signup.php"
+                        </Link>
+                        <Link href="/signup"
                             className="inline-flex justify-center gap-2 text-white bg-[#3dccc7] hover:bg-[#68d8d6] px-4 py-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
                             Sign Up
-                        </a>
+                        </Link>
                     </div>
                     <div className="md:hidden">
                         <button id="menu-toggle-btn" onClick={toggleMenu} type="button" aria-expanded={isMenuOpen} aria-controls="mobile-menu"
@@ -54,17 +55,17 @@ export default function Header() {
                 <div id="mobile-menu" className={`md:hidden mt-3 ${isMenuOpen ? 'block' : 'hidden'}`}>
                     <div className="mobile-menu-panel bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-colors duration-300 shadow-lg rounded-xl p-6 space-y-4">
                         <div className="flex flex-col space-y-3">
-                            <a href="index.php" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Home</a>
-                            <a href="about.php" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">About Us</a>
-                            <a href="features.php" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Features</a>
-                            <a href="riviews.php" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Riviews</a>
-                            <a href="#" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Download</a>
+                            <Link href="/" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Home</Link>
+                            <Link href="/about" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">About Us</Link>
+                            <Link href="/features" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Features</Link>
+                            <Link href="/riviews" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Riviews</Link>
+                            <Link href="/" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Download</Link>
                         </div>
                         <div className="flex flex-col gap-3 py-3 border-t border-neutral-200 dark:border-neutral-700">
-                            <a href="signin.php"
-                                className="inline-flex justify-center items-center gap-2 text-sm font-medium rounded-md py-2 px-4 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-colors duration-300 hover:text-[#3dccc7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#3dccc7]">Sign In</a>
-                            <a href="signup.php"
-                                className="inline-flex justify-center items-center gap-2 text-sm font-medium rounded-md py-2 px-4 text-white bg-[#3dccc7] hover:bg-[#68d8d6] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#3dccc7]">Sign Up</a>
+                            <Link href="/signin"
+                                className="inline-flex justify-center items-center gap-2 text-sm font-medium rounded-md py-2 px-4 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-colors duration-300 hover:text-[#3dccc7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#3dccc7]">Sign In</Link>
+                            <Link href="/signup"
+                                className="inline-flex justify-center items-center gap-2 text-sm font-medium rounded-md py-2 px-4 text-white bg-[#3dccc7] hover:bg-[#68d8d6] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#3dccc7]">Sign Up</Link>
                         </div>
                     </div>
                 </div>
