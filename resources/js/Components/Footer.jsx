@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from '@inertiajs/react';
 
 export default function Footer({ theme, changeTheme }) {
     const [isLanguageOpen, setIsLanguageOpen] = useState(false);
@@ -40,24 +41,24 @@ export default function Footer({ theme, changeTheme }) {
                     <div>
                         <h4 className="font-medium">Product</h4>
                         <ul className="mt-4 space-y-4 text-sm">
-                            <li><a href="index.php" className="opacity-80 hover:opacity-100 transition-opacity">Home</a></li>
-                            <li><a href="features.php" className="opacity-80 hover:opacity-100 transition-opacity">Features</a></li>
-                            <li><a href="#" className="opacity-80 hover:opacity-100 transition-opacity">Download</a></li>
+                            <li><Link href="/" className="opacity-80 hover:opacity-100 transition-opacity">Home</Link></li>
+                            <li><Link href="/features" className="opacity-80 hover:opacity-100 transition-opacity">Features</Link></li>
+                            <li><Link href="#" className="opacity-80 hover:opacity-100 transition-opacity">Download</Link></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 className="font-medium">Company</h4>
                         <ul className="mt-4 space-y-4 text-sm">
-                            <li><a href="4ever-young.php" className="opacity-80 hover:opacity-100 transition-opacity">4Ever Young</a></li>
-                            <li><a href="#" className="opacity-80 hover:opacity-100 transition-opacity">Community</a></li>
+                            <li><Link href="/about" className="opacity-80 hover:opacity-100 transition-opacity">About Us</Link></li>
+                            <li><Link href="#" className="opacity-80 hover:opacity-100 transition-opacity">Community</Link></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 className="font-medium">What Our Users Say</h4>
                         <ul className="mt-4 space-y-4 text-sm">
-                            <li><a href="riviews.php" className="opacity-80 hover:opacity-100 transition-opacity">Riviews</a></li>
+                            <li><Link href="/riviews" className="opacity-80 hover:opacity-100 transition-opacity">Riviews</Link></li>
                         </ul>
                     </div>
 
