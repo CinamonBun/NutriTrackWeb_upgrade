@@ -95,7 +95,7 @@ export default function Footer({ theme, changeTheme }) {
                                 id="dropdownButton"
                                 type="button"
                                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                                className="inline-flex items-center justify-between w-full rounded-xl px-4 py-2.5 text-sm font-bold focus:outline-none transition-colors duration-200 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] text-black/60 dark:text-white/60"
+                                className="inline-flex items-center justify-between w-full rounded-xl px-4 py-2.5 text-sm font-bold focus:outline-none bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] text-black/60 dark:text-white/60"
                                 aria-expanded={isLanguageOpen}
                                 aria-haspopup="true"
                             >
