@@ -106,7 +106,7 @@ export default function About() {
                                 <i className="fas fa-flask text-purple-500 dark:text-purple-400 text-xl"></i>
                             </div>
                             <h3 className="text-xl font-bold mb-4">Backed by Science</h3>
-                            <p className="opacity-60 dark:opacity-70 text-sm">
+                            <p className="opacity-60 dark:opacity-70">
                                 Setiap algoritma di NutriTrack divalidasi oleh jurnal medis terkemuka dan tim nutrisionis bersertifikat.
                             </p>
                         </div>
@@ -116,7 +116,7 @@ export default function About() {
                                 <i className="fas fa-shield-alt text-green-500 dark:text-green-400 text-xl"></i>
                             </div>
                             <h3 className="text-xl font-bold mb-4">Privacy First</h3>
-                            <p className="opacity-60 dark:opacity-70 text-sm">
+                            <p className="opacity-60 dark:opacity-70">
                                 Data kesehatan Anda adalah milik Anda. Kami menggunakan enkripsi end-to-end dan tidak pernah menjual data ke pihak ketiga.
                             </p>
                         </div>

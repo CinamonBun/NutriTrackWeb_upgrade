@@ -14,7 +14,7 @@ export default function Signin() {
             <section className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
                     <div className="text-center">
-                        <div className="mx-auto h-12 w-12 bg-[#3dccc7] rounded-full flex items-center justify-center shadow-lg">
+                        <div className="mx-auto h-12 w-12 bg-primary rounded-full flex items-center justify-center shadow-lg">
                             <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
@@ -24,12 +24,12 @@ export default function Signin() {
                         <h2 className="mt-6 text-3xl font-extrabold">
                             Sign in to your account
                         </h2>
-                        <p className="mt-2 text-sm opacity-60">
+                        <p className="mt-2 text-sm opacity-60 dark:opacity-70">
                             Welcome back! Please enter your details.
                         </p>
                     </div>
 
-                    <div className="card rounded-xl shadow-xl p-8">
+                    <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-xl shadow-xl p-8">
                         <form className="space-y-4" action="signin.php" method="POST">
                             <div>
                                 <label htmlFor="username" className="block text-sm font-medium mb-2">
@@ -37,13 +37,13 @@ export default function Signin() {
                                 </label>
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <svg className="h-5 w-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="h-5 w-5 opacity-60 dark:opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                         </svg>
                                     </div>
                                     <input id="username" name="username" type="text" required onChange={(e) => setUsername(e.target.value)}
-                                        className="block w-full pl-10 pr-3 py-3 card rounded-lg focus:outline-none focus:ring-2 transition duration-200"
+                                        className="block w-full pl-10 pr-3 py-3 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 transition duration-200"
                                         placeholder="Enter your username" value={username ?? ''} />
                                 </div>
                             </div>
@@ -54,14 +54,14 @@ export default function Signin() {
                                 </label>
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <svg className="h-5 w-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="h-5 w-5 opacity-60 dark:opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
                                             </path>
                                         </svg>
                                     </div>
                                     <input id="password" name="password" type="password" required onChange={(e) => setPassword(e.target.value)}
-                                        className="block w-full pl-10 pr-3 py-3 card rounded-lg focus:outline-none focus:ring-2 transition duration-200"
+                                        className="block w-full pl-10 pr-3 py-3 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 transition duration-200"
                                         placeholder="Enter your password" value={password ?? ''} />
                                 </div>
                             </div>
@@ -69,7 +69,7 @@ export default function Signin() {
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center">
                                     <input id="remember-me" name="remember-me" type="checkbox" onChange={(e) => setRememberMe(e.target.checked)}
-                                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+                                        className="h-4 w-4 text-primary focus:ring-primary bg-[#ffffff] dark:bg-[#404040] border border-[#cccccc] dark:border-[#404040] rounded" />
                                     <label htmlFor="remember-me" className="ml-2 block text-sm">
                                         Remember me
                                     </label>
@@ -104,7 +104,7 @@ export default function Signin() {
                             )}
 
                             <div>
-                                <Link href="/" className="group relative w-full flex justify-center py-3 px-4 card text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-200">
+                                <Link href="/" className="group relative w-full flex justify-center py-3 px-4 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-200">
                                     Back to Home
                                 </Link>
                             </div>
@@ -128,7 +128,7 @@ export default function Signin() {
                 </div>
 
                 <div className="flex space-x-2">
-                    <div id="theme-switcher" className="fixed bottom-6 left-6 z-50 flex flex-col p-1 rounded-full card shadow-sm">
+                    <div id="theme-switcher" className="fixed bottom-6 left-6 z-50 flex flex-col p-1 rounded-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] shadow-sm">
                         <button id="system-btn"
                             className="flex items-center justify-center p-2 rounded-full transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
