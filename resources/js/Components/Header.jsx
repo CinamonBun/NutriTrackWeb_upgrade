@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
+    const { auth } = usePage().props;
+    const user = auth?.user;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -21,8 +23,22 @@ export default function Header() {
         <header id="sticky-header" className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ease-in-out ${isSticky ? 'py-3 bg-[#ffffff]/80 text-black dark:bg-[#2a2a2a]/80 dark:text-white backdrop-blur-lg shadow-sm' : 'py-5 lg:py-6 bg-transparent text-black dark:text-white'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <nav className="relative flex justify-between items-center">
-                    <div className="flex items-center">
+                    <div className="flex items-center space-x-6">
                         <h1 className="text-2xl font-bold">NutriTrack+</h1>
+                        {user && (
+                            <div className="hidden md:flex items-center space-x-4 border-l border-neutral-300 dark:border-neutral-600 pl-6">
+                                <div className="flex items-center space-x-2">
+                                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                                        {user.name.charAt(0).toUpperCase()}
+                                    </div>
+                                    <span className="text-sm font-medium">{user.name}</span>
+                                </div>
+                                <Link href="/logout" method="post" as="button"
+                                    className="text-sm font-medium text-red-500 hover:text-red-600 transition-colors">
+                                    Logout
+                                </Link>
+                            </div>
+                        )}
                     </div>
                     <ul className="hidden md:flex items-center space-x-8">
                         <li><Link href="/" className="transform transition-colors hover:text-[#3dccc7]">Home</Link></li>
@@ -32,14 +48,18 @@ export default function Header() {
                         <li><Link href="#" className="transform transition-colors hover:text-[#3dccc7]">Download</Link></li>
                     </ul>
                     <div className="hidden md:flex items-center space-x-3">
-                        <Link href="/signin"
-                            className="whitespace-nowrap transition duration-200 hover:text-[#3dccc7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none">
-                            Sign In
-                        </Link>
-                        <Link href="/signup"
-                            className="inline-flex justify-center gap-2 text-white bg-[#3dccc7] hover:bg-[#68d8d6] px-4 py-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-                            Sign Up
-                        </Link>
+                        {!user && (
+                            <>
+                                <Link href="/signin"
+                                    className="whitespace-nowrap transition duration-200 hover:text-[#3dccc7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none">
+                                    Sign In
+                                </Link>
+                                <Link href="/signup"
+                                    className="inline-flex justify-center gap-2 text-white bg-[#3dccc7] hover:bg-[#68d8d6] px-4 py-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                                    Sign Up
+                                </Link>
+                            </>
+                        )}
                     </div>
                     <div className="md:hidden">
                         <button id="menu-toggle-btn" onClick={toggleMenu} type="button" aria-expanded={isMenuOpen} aria-controls="mobile-menu"

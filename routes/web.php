@@ -20,13 +20,7 @@ Route::get('/riviews', function () {
     return Inertia::render('riviews');
 });
 
-Route::get('/signin', function () {
-    return Inertia::render('signin');
-});
 
-Route::get('/signup', function () {
-    return Inertia::render('signup');
-});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

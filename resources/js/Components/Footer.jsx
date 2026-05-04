@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
+import { useTheme } from '@/Contexts/ThemeContext';
 
-export default function Footer({ theme, changeTheme }) {
+export default function Footer() {
+    const { theme, changeTheme } = useTheme();
     const [isLanguageOpen, setIsLanguageOpen] = useState(false);
     const [language, setLanguage] = useState('Language');
 
