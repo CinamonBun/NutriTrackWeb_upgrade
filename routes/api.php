@@ -43,11 +43,7 @@ Route::post('/login', function (Request $request) {
         $user = Auth::user();
         $token = $user->createToken('API Token')->plainTextToken;
 
-        return response()->json([
-            'name' => $user->name,
-            'email' => $user->email,
-            'token' => $token
-        ]);
+        return response()->json(['user' => $user, 'token' => $token], 200);
     }
 
     return response()->json(['error' => 'Unauthorized'], 401);
