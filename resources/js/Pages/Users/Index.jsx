@@ -74,8 +74,8 @@ export default function Index({ users }) {
 
     const isEditDirty = editInitialData
         ? editData.name !== editInitialData.name ||
-          editData.email !== editInitialData.email ||
-          editData.role !== editInitialData.role
+        editData.email !== editInitialData.email ||
+        editData.role !== editInitialData.role
         : false;
 
     const editNeedsOtp = editingUser ? editingUser.id !== currentUser.id : false;
@@ -116,7 +116,7 @@ export default function Index({ users }) {
                 setEditOtpStep('idle');
                 setEditOtpCode('');
                 setEditOtpError('');
-                
+
                 // Force a clean reload of the page to show changes
                 router.visit(window.location.pathname, {
                     preserveScroll: true,
