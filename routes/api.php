@@ -77,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Food log biasanya nested atau dikelola di dalam MealLog,
     // tapi ini jika Anda ingin akses langsung:
     Route::post('/meal-logs/{mealLog}/food-logs', [MealLogController::class, 'addFood']);
+    Route::delete('/food-logs/{foodLog}', [FoodLogController::class, 'destroy']);
 
     // --- Kondisi Psikologis ---
     // Mencatat mood dan stres

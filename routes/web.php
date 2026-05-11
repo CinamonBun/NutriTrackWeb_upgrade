@@ -42,6 +42,17 @@ Route::middleware('auth')->group(function () {
     Route::post('users/{user}/reset-password-with-code', [UserController::class, 'resetPasswordWithCode'])->name('users.reset-password-with-code');
     Route::post('users/{user}/send-action-verification-code', [UserController::class, 'sendActionVerificationCode'])->name('users.send-action-verification-code');
     Route::post('users/{user}/verify-action-code', [UserController::class, 'verifyActionCode'])->name('users.verify-action-code');
+
+    // Admin Ingredient Management
+    Route::resource('ingredients', \App\Http\Controllers\AdminIngredientController::class)->names([
+        'index' => 'admin.ingredients.index',
+        'create' => 'admin.ingredients.create',
+        'store' => 'admin.ingredients.store',
+        'show' => 'admin.ingredients.show',
+        'edit' => 'admin.ingredients.edit',
+        'update' => 'admin.ingredients.update',
+        'destroy' => 'admin.ingredients.destroy',
+    ]);
 });
 
 require __DIR__ . '/auth.php';

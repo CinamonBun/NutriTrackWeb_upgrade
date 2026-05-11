@@ -45,7 +45,7 @@ export default function AdminHeader() {
                         <li><Link href="/users" className="transform transition-colors hover:text-[#3dccc7]">Users</Link></li>
                         <li><Link href="/features" className="transform transition-colors hover:text-[#3dccc7]">Seasons</Link></li>
                         <li><Link href="/orders" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
-                        <li><Link href="/foods" className="transform transition-colors hover:text-[#3dccc7]">Foods</Link></li>
+                        <li><Link href="/ingredients" className="transform transition-colors hover:text-[#3dccc7]">Ingredients</Link></li>
                         <li><Link href="/insights" className="transform transition-colors hover:text-[#3dccc7]">Insights</Link></li>
                     </ul>
 
@@ -67,7 +67,7 @@ export default function AdminHeader() {
                             <li><Link href="/users" className="transform transition-colors hover:text-[#3dccc7]">Users</Link></li>
                             <li><Link href="/features" className="transform transition-colors hover:text-[#3dccc7]">Seasons</Link></li>
                             <li><Link href="/orders" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
-                            <li><Link href="/foods" className="transform transition-colors hover:text-[#3dccc7]">Foods</Link></li>
+                            <li><Link href="/ingredients" className="transform transition-colors hover:text-[#3dccc7]">Ingredients</Link></li>
                             <li><Link href="/insights" className="transform transition-colors hover:text-[#3dccc7]">Insights</Link></li>
                         </div>
                         <div className="flex flex-col gap-3 py-3 border-t border-neutral-200 dark:border-neutral-700">
