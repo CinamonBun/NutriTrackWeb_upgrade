@@ -6,6 +6,9 @@ use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\IngredientsExport;
+use App\Imports\IngredientsImport;
 
 class AdminIngredientController extends Controller
 {
@@ -17,7 +20,24 @@ class AdminIngredientController extends Controller
         ]);
     }
 
+    public function export()
+    {
+        return Excel::download(new IngredientsExport, 'ingredients.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv'
+        ]);
+
+        Excel::import(new IngredientsImport, $request->file('file'));
+
+        return redirect()->route('admin.ingredients.index')->with('success', 'Ingredients imported successfully.');
+    }
+
     public function store(Request $request)
+
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',

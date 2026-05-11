@@ -53,6 +53,9 @@ Route::middleware('auth')->group(function () {
         'update' => 'admin.ingredients.update',
         'destroy' => 'admin.ingredients.destroy',
     ]);
+    Route::get('ingredients-export', [\App\Http\Controllers\AdminIngredientController::class, 'export'])->name('admin.ingredients.export');
+    Route::post('ingredients-import', [\App\Http\Controllers\AdminIngredientController::class, 'import'])->name('admin.ingredients.import');
+
 });
 
 require __DIR__ . '/auth.php';

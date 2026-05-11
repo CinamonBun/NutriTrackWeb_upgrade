@@ -51,6 +51,12 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        // Ensure the actor is an admin
+        $actor = auth()->user();
+        if (!$actor || $actor->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized.'], 403);
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -60,7 +66,12 @@ class UserController extends Controller
 
         $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
 
-        \App\Models\User::create($validated);
+        $newUser = \App\Models\User::create($validated);
+
+        // Log the creation action
+        $this->logAdminAudit($actor, $newUser, "Created", [
+            'new' => $newUser->only(['name', 'email', 'role']),
+        ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }

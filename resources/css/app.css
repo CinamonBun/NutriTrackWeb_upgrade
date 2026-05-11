@@ -8,7 +8,16 @@ body {
     /* font-family: "Geist", sans-serif; */
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+/* Menghilangkan panah di Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
 
 .fade-in {
     animation: fadeIn 0.3s ease-in-out;
@@ -241,11 +250,15 @@ body {
 
 /* Hide scrollbar but keep scroll (cross-browser) */
 .scrollbar-hide {
-    -ms-overflow-style: none; /* IE/Edge legacy */
-    scrollbar-width: none; /* Firefox */
-    -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+    -ms-overflow-style: none;
+    /* IE/Edge legacy */
+    scrollbar-width: none;
+    /* Firefox */
+    -webkit-overflow-scrolling: touch;
+    /* iOS momentum scroll */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none;
+    /* Chrome/Safari */
 }

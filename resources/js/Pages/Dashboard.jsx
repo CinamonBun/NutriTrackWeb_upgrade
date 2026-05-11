@@ -5,7 +5,7 @@ import { usePage } from '@inertiajs/react';
 
 export default function Dashboard({ auditLogs = [] }) {
     const { auth } = usePage().props;
-    
+
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard" />
