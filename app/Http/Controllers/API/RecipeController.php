@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Recipe;
 use Illuminate\Http\Request;
@@ -48,16 +50,20 @@ class RecipeController extends Controller
         });
     }
 
-    public function show(Recipe $recipe)
+    public function show($id)
     {
-        $this->authorizeOwner($recipe);
-        return response()->json(['data' => $recipe->load('ingredients.ingredient')]);
-    }
+        $recipe = Recipe::with('ingredients.ingredient')
+            ->where('user_id', auth()->id())
+            ->find($id);
 
-    private function authorizeOwner(Recipe $recipe)
-    {
-        if ($recipe->user_id !== auth()->id()) {
-            abort(403, 'Unauthorized action.');
+        if (!$recipe) {
+            return response()->json([
+                'message' => 'Recipe tidak ditemukan'
+            ], 404);
         }
+
+        return response()->json([
+            'data' => $recipe
+        ]);
     }
 }
