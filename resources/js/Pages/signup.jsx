@@ -1,10 +1,46 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
 import { useTheme } from '@/Contexts/ThemeContext';
+import { motion, useSpring, useTransform } from 'framer-motion';
 
 export default function Signup() {
     const { theme, changeTheme } = useTheme();
+    const cardRef = useRef(null);
+
+    // Ultra-smooth spring configuration
+    const springConfig = { damping: 30, stiffness: 100, mass: 0.5 };
+    const x = useSpring(0, springConfig);
+    const y = useSpring(0, springConfig);
+
+    // Transform mouse position to tilt and scale
+    const rotateX = useTransform(y, [-0.5, 0.5], [15, -15]);
+    const rotateY = useTransform(x, [-0.5, 0.5], [-15, 15]);
+    const scale = useSpring(1, springConfig);
+    const shadow = useTransform(y, [-0.5, 0.5],
+        ["0 20px 25px -5px rgb(0 0 0 / 0.1)", "0 10px 10px -5px rgb(0 0 0 / 0.04)"]
+    );
+
+
+    const handleMouseMove = (e) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+
+        // Calculate normalized position (-0.5 to 0.5)
+        const mouseX = (e.clientX - rect.left) / rect.width - 0.5;
+        const mouseY = (e.clientY - rect.top) / rect.height - 0.5;
+
+        x.set(mouseX);
+        y.set(mouseY);
+        scale.set(1.02);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+        scale.set(1);
+    };
+
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -23,9 +59,14 @@ export default function Signup() {
         <AppLayout showHeader={false} showFooter={false}>
             <Head title="NutriTrack - Signup" />
             <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-md w-full space-y-8">
+                <div style={{ perspective: 1200 }} className="max-w-md w-full space-y-8">
 
-                    <div className="text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center"
+                    >
                         <div className="mx-auto h-12 w-12 bg-[#3dccc7] rounded-full flex items-center justify-center shadow-lg">
                             <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -38,9 +79,47 @@ export default function Signup() {
                         <p className="mt-2 text-sm opacity-60">
                             Join us today! Fill in your details to get started.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-xl shadow-xl p-8">
+                    <motion.div
+                        ref={cardRef}
+                        onMouseMove={handleMouseMove}
+                        onMouseLeave={handleMouseLeave}
+                        style={{
+                            rotateX,
+                            rotateY,
+                            scale,
+                            boxShadow: shadow,
+                            transformStyle: "preserve-3d",
+                        }}
+                        className="relative bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-xl shadow-xl p-8 overflow-hidden"
+                    >
+                        {/* Glowing Border Lines */}
+                        <motion.div
+                            initial={{ left: "-100%" }}
+                            animate={{ left: "100%" }}
+                            transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
+                            className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent z-10 opacity-50"
+                        />
+                        <motion.div
+                            initial={{ top: "-100%" }}
+                            animate={{ top: "100%" }}
+                            transition={{ repeat: Infinity, duration: 6, ease: "linear", delay: 1.5 }}
+                            className="absolute top-0 right-0 w-[1px] h-full bg-gradient-to-b from-transparent via-primary to-transparent z-10 opacity-50"
+                        />
+                        <motion.div
+                            initial={{ right: "-100%" }}
+                            animate={{ right: "100%" }}
+                            transition={{ repeat: Infinity, duration: 6, ease: "linear", delay: 3 }}
+                            className="absolute bottom-0 right-0 w-full h-[1px] bg-gradient-to-l from-transparent via-primary to-transparent z-10 opacity-50"
+                        />
+                        <motion.div
+                            initial={{ bottom: "-100%" }}
+                            animate={{ bottom: "100%" }}
+                            transition={{ repeat: Infinity, duration: 6, ease: "linear", delay: 4.5 }}
+                            className="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-t from-transparent via-primary to-transparent z-10 opacity-50"
+                        />
+
                         <form className="space-y-4" onSubmit={submit}>
 
                             <div>
@@ -161,7 +240,7 @@ export default function Signup() {
                                 </span>
                             </div>
                         </form>
-                    </div>
+                    </motion.div>
 
                     <div className="text-center">
                         <p className="text-sm text-gray-400">

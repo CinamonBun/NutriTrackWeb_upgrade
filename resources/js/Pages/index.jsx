@@ -1,6 +1,21 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
+import { motion } from 'framer-motion';
+
+const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+};
+
+const staggerContainer = {
+    animate: {
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
 
 const reviews = [
     { name: 'Sarah K.', handle: '@sarahk', text: 'NutriTrack changed my life! So easy to track meals.', color: '34373b' },
@@ -37,21 +52,38 @@ export default function Index() {
                 <div className="hidden md:block absolute bottom-0 left-0 md:w-[320px] md:h-[320px] lg:w-[500px] lg:h-[500px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none"></div>
 
                 <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-                    <div className="flex-1 text-center lg:text-left">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-colors duration-300 text-sm text-primary mb-6 animate-pulse">
+                    <motion.div
+                        variants={staggerContainer}
+                        initial="initial"
+                        animate="animate"
+                        className="flex-1 text-center lg:text-left"
+                    >
+                        <motion.div
+                            variants={fadeInUp}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-colors duration-300 text-sm text-primary mb-6 animate-pulse"
+                        >
                             <span className="w-2 h-2 rounded-full bg-primary"></span>
                             New Feature: Chat Bot AI
-                        </div>
+                        </motion.div>
 
-                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight mb-6">
+                        <motion.h1
+                            variants={fadeInUp}
+                            className="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight mb-6"
+                        >
                             Mulai <span className="gradient-text">Gaya Hidup</span> <br /> Lebih Sehat.
-                        </h1>
+                        </motion.h1>
 
-                        <p className="text-lg md:text-xl opacity-60 dark:opacity-70 leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0">
+                        <motion.p
+                            variants={fadeInUp}
+                            className="text-lg md:text-xl opacity-60 dark:opacity-70 leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0"
+                        >
                             Pantau kalori, nutrisi, dan aktivitas harianmu dalam satu aplikasi cerdas. Data akurat untuk hasil yang nyata.
-                        </p>
+                        </motion.p>
 
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
+                        <motion.div
+                            variants={fadeInUp}
+                            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10"
+                        >
                             <a href="#" className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-primary-dark hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(61,204,199,0.3)]">
                                 <i className="fab fa-google-play"></i>
                                 <span>Google Play</span>
@@ -60,8 +92,8 @@ export default function Index() {
                                 <i className="fab fa-apple"></i>
                                 <span>App Store</span>
                             </a>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
                     <div className="flex-1 relative flex justify-center items-center perspective-container">
                         <div className="absolute top-[20%] -left-[5%] z-20 bg-white/40 dark:bg-[#2a2a2a]/10 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-colors duration-300 p-4 rounded-2xl animate-float-delayed hidden md:block w-40">
@@ -171,7 +203,13 @@ export default function Index() {
 
             <section className="relative text-center py-16 sm:py-32 overflow-hidden ">
                 <div className="relative z-10">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+                    >
                         <div className="text-center mb-6 md:mb-0">
                             <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">Why NutriTrack ?</h2>
                             <p className="mt-3 text-lg opacity-60 dark:opacity-70 max-w-xl mx-auto">
@@ -183,8 +221,14 @@ export default function Index() {
                             <div className="mt-12 max-w-6xl mx-auto rounded-lg shadow-md bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-all duration-300 ease-in-out hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] overflow-hidden group">
                                 <div className="grid md:grid-cols-2 gap-0">
                                     <div className="p-8 md:p-12 flex flex-col justify-center">
-                                        <div className="space-y-6">
-                                            <div className="flex items-start gap-4">
+                                        <motion.div
+                                            variants={staggerContainer}
+                                            initial="initial"
+                                            whileInView="animate"
+                                            viewport={{ once: true }}
+                                            className="space-y-6"
+                                        >
+                                            <motion.div variants={fadeInUp} className="flex items-start gap-4">
                                                 <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
                                                     <i className="fas fa-brain text-primary text-xl"></i>
                                                 </div>
@@ -192,9 +236,9 @@ export default function Index() {
                                                     <h3 className="font-semibold text-lg mb-1">Smart AI Recommendations</h3>
                                                     <p className="opacity-60 dark:opacity-70 text-sm">Dapatkan rekomendasi makanan cerdas berdasarkan kebutuhan nutrisi dan preferensi Anda dengan teknologi AI.</p>
                                                 </div>
-                                            </div>
+                                            </motion.div>
 
-                                            <div className="flex items-start gap-4">
+                                            <motion.div variants={fadeInUp} className="flex items-start gap-4">
                                                 <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center flex-shrink-0">
                                                     <i className="fas fa-chart-pie text-secondary text-xl"></i>
                                                 </div>
@@ -202,9 +246,9 @@ export default function Index() {
                                                     <h3 className="font-semibold text-lg mb-1">Detailed Analytics</h3>
                                                     <p className="opacity-60 dark:opacity-70 text-sm">Visualisasi lengkap dari asupan nutrisi harian, mingguan, dan bulanan dalam grafik yang mudah dipahami.</p>
                                                 </div>
-                                            </div>
+                                            </motion.div>
 
-                                            <div className="flex items-start gap-4">
+                                            <motion.div variants={fadeInUp} className="flex items-start gap-4">
                                                 <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0">
                                                     <i className="fas fa-users text-accent text-xl"></i>
                                                 </div>
@@ -212,9 +256,9 @@ export default function Index() {
                                                     <h3 className="font-semibold text-lg mb-1">Community Support</h3>
                                                     <p className="opacity-60 dark:opacity-70 text-sm">Bergabung dengan komunitas pengguna yang saling mendukung dalam perjalanan hidup sehat mereka.</p>
                                                 </div>
-                                            </div>
+                                            </motion.div>
 
-                                            <div className="flex items-start gap-4">
+                                            <motion.div variants={fadeInUp} className="flex items-start gap-4">
                                                 <div className="w-12 h-12 bg-[#FFC107]/10 rounded-xl flex items-center justify-center flex-shrink-0">
                                                     <i className="fas fa-shield-alt text-[#FFC107] text-xl"></i>
                                                 </div>
@@ -222,8 +266,8 @@ export default function Index() {
                                                     <h3 className="font-semibold text-lg mb-1">Data Security</h3>
                                                     <p className="opacity-60 dark:opacity-70 text-sm">Data kesehatan Anda tersimpan aman dengan enkripsi tingkat tinggi dan privasi terjaga.</p>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </motion.div>
+                                        </motion.div>
                                     </div>
 
                                     <div className=" p-8 md:p-12 flex items-center justify-center">
@@ -265,7 +309,7 @@ export default function Index() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
@@ -273,7 +317,13 @@ export default function Index() {
 
                 <section className="py-16 sm:py-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex flex-col md:flex-row items-center justify-between mb-12 sm:mb-16">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="flex flex-col md:flex-row items-center justify-between mb-12 sm:mb-16"
+                        >
                             <div className="text-center md:text-left mb-6 md:mb-0">
                                 <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">See NutriTrack in Action</h2>
                                 <p className="mt-3 text-lg opacity-60 dark:opacity-70 max-w-xl">
@@ -284,10 +334,16 @@ export default function Index() {
                                 className="text-white px-6 py-3 rounded-lg font-medium bg-primary hover:bg-primary-dark transition-all hover:-translate-y-1 duration-300 hover:shadow-[0_10px_20px_rgba(61,204,199,0.3)]">
                                 See more features
                             </a>
-                        </div>
+                        </motion.div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                            <div className="rounded-lg shadow-md bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-all duration-300 ease-in-out hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] p-6 flex flex-col h-full">
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="initial"
+                            whileInView="animate"
+                            viewport={{ once: true, margin: "-100px" }}
+                            className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+                        >
+                            <motion.div variants={fadeInUp} className="rounded-lg shadow-md bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-all duration-300 ease-in-out hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] p-6 flex flex-col h-full">
                                 <div className="mb-4">
                                     <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
                                         <i className="fas fa-camera text-primary text-3xl"></i>
@@ -311,9 +367,9 @@ export default function Index() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            <div className="rounded-lg shadow-md bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-all duration-300 ease-in-out hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] p-6 flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="rounded-lg shadow-md bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-all duration-300 ease-in-out hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] p-6 flex flex-col h-full">
                                 <div className="mb-4">
                                     <div className="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mb-4">
                                         <i className="fas fa-chart-line text-secondary text-3xl"></i>
@@ -348,9 +404,9 @@ export default function Index() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            <div className="rounded-lg shadow-md bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-all duration-300 ease-in-out hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] p-6 flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="rounded-lg shadow-md bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-all duration-300 ease-in-out hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] p-6 flex flex-col h-full">
                                 <div className="mb-4">
                                     <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-4">
                                         <i className="fas fa-book-open text-accent text-3xl"></i>
@@ -385,13 +441,19 @@ export default function Index() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
                     </div>
                 </section>
 
                 <section className="py-16 sm:py-24">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+                    >
                         <div className="text-center mb-6">
                             <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">Reviews</h2>
                             <p className="mt-3 text-lg opacity-60 dark:opacity-70 max-w-xl mx-auto">
@@ -405,7 +467,7 @@ export default function Index() {
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 h-full">
                                 {[0, 1, 2, 3].map((colIndex) => (
                                     <div key={colIndex} className={`marquee-col h-full overflow-y-hidden ${colIndex > 1 ? 'hidden md:block' : ''}`}>
-                                        <div className={`marquee-track ${colIndex % 2 === 0 ? 'reverse' : ''} px-2 py-4`}>
+                                        <div className={`marquee-track ${colIndex % 2 === 0 ? 'reverse' : ''} px-2`}>
                                             {[...reviews, ...reviews].map((review, i) => (
                                                 <div key={i} className="p-4 rounded-lg shadow-md bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] transition-all duration-300 ease-in-out hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)]">
                                                     <div className="flex items-center gap-3 mb-2">
@@ -423,7 +485,7 @@ export default function Index() {
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </section>
             </div>
         </AppLayout >
