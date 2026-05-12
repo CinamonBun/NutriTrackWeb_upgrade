@@ -1,11 +1,49 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
 import { useTheme } from '@/Contexts/ThemeContext';
+import { motion, useSpring, useTransform } from 'framer-motion';
 
 export default function Signin() {
     const { theme, changeTheme } = useTheme();
+    const cardRef = useRef(null);
+
+    // Ultra-smooth spring configuration
+    const springConfig = { damping: 30, stiffness: 100, mass: 0.5 };
+    const x = useSpring(0, springConfig);
+    const y = useSpring(0, springConfig);
+
+    // Transform mouse position to tilt and scale
+    const rotateX = useTransform(y, [-0.5, 0.5], [15, -15]);
+    const rotateY = useTransform(x, [-0.5, 0.5], [-15, 15]);
+    const scale = useSpring(1, springConfig);
+    const shadow = useTransform(y, [-0.5, 0.5],
+        ["0 20px 25px -5px rgb(0 0 0 / 0.1)", "0 10px 10px -5px rgb(0 0 0 / 0.04)"]
+    );
+
+
+    const handleMouseMove = (e) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+
+        // Calculate normalized position (-0.5 to 0.5)
+        const mouseX = (e.clientX - rect.left) / rect.width - 0.5;
+        const mouseY = (e.clientY - rect.top) / rect.height - 0.5;
+
+        x.set(mouseX);
+        y.set(mouseY);
+        scale.set(1.02);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+        scale.set(1);
+    };
+
+
     const { data, setData, post, processing, errors, reset } = useForm({
+
         email: '',
         password: '',
         remember: false,
@@ -22,24 +60,42 @@ export default function Signin() {
         <AppLayout showHeader={false} showFooter={false}>
             <Head title="NutriTrack - Signin" />
             <section className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-md w-full space-y-8">
-                    <div className="text-center">
-                        <div className="mx-auto h-12 w-12 bg-primary rounded-full flex items-center justify-center shadow-lg">
+                <div style={{ perspective: 1200 }} className="max-w-md w-full space-y-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center"
+                    >
+                        <div className="mx-auto h-12 w-12 bg-primary rounded-full flex items-center justify-center shadow-lg mb-6">
                             <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
                                 </path>
                             </svg>
                         </div>
-                        <h2 className="mt-6 text-3xl font-extrabold">
+                        <h2 className="text-3xl font-extrabold tracking-tight">
                             Sign in to your account
                         </h2>
                         <p className="mt-2 text-sm opacity-60 dark:opacity-70">
                             Welcome back! Please enter your details.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-xl shadow-xl p-8">
+                    <motion.div
+
+                        ref={cardRef}
+                        onMouseMove={handleMouseMove}
+                        onMouseLeave={handleMouseLeave}
+                        style={{
+                            rotateX,
+                            rotateY,
+                            scale,
+                            boxShadow: shadow,
+                            transformStyle: "preserve-3d",
+                        }}
+                        className="bg-white/80 dark:bg-[#2a2a2a]/80 backdrop-blur-xl border border-white/20 dark:border-neutral-700/30 rounded-2xl shadow-2xl p-8"
+                    >
                         <form className="space-y-4" onSubmit={submit}>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium mb-2">
@@ -125,7 +181,7 @@ export default function Signin() {
                                 </span>
                             </div>
                         </form>
-                    </div>
+                    </motion.div>
 
                     <div className="text-center">
                         <p className="text-sm text-gray-400">

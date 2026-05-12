@@ -43,9 +43,9 @@ export default function AdminHeader() {
                     <ul className="hidden md:flex items-center space-x-8">
                         <li><Link href="/dashboard" className="transform transition-colors hover:text-[#3dccc7]">Dashboard</Link></li>
                         <li><Link href="/users" className="transform transition-colors hover:text-[#3dccc7]">Users</Link></li>
-                        <li><Link href="/features" className="transform transition-colors hover:text-[#3dccc7]">Seasons</Link></li>
-                        <li><Link href="/orders" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
-                        <li><Link href="/foods" className="transform transition-colors hover:text-[#3dccc7]">Foods</Link></li>
+                        <li><Link href="/seasons" className="transform transition-colors hover:text-[#3dccc7]">Seasons</Link></li>
+                        <li><Link href="/meals" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
+                        <li><Link href="/ingredients" className="transform transition-colors hover:text-[#3dccc7]">Ingredients</Link></li>
                         <li><Link href="/insights" className="transform transition-colors hover:text-[#3dccc7]">Insights</Link></li>
                     </ul>
 
@@ -65,9 +65,9 @@ export default function AdminHeader() {
                         <div className="flex flex-col space-y-3">
                             <li><Link href="/dashboard" className="transform transition-colors hover:text-[#3dccc7]">Dashboard</Link></li>
                             <li><Link href="/users" className="transform transition-colors hover:text-[#3dccc7]">Users</Link></li>
-                            <li><Link href="/features" className="transform transition-colors hover:text-[#3dccc7]">Seasons</Link></li>
-                            <li><Link href="/orders" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
-                            <li><Link href="/foods" className="transform transition-colors hover:text-[#3dccc7]">Foods</Link></li>
+                            <li><Link href="/seasons" className="transform transition-colors hover:text-[#3dccc7]">Seasons</Link></li>
+                            <li><Link href="/meals" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
+                            <li><Link href="/ingredients" className="transform transition-colors hover:text-[#3dccc7]">Ingredients</Link></li>
                             <li><Link href="/insights" className="transform transition-colors hover:text-[#3dccc7]">Insights</Link></li>
                         </div>
                         <div className="flex flex-col gap-3 py-3 border-t border-neutral-200 dark:border-neutral-700">
