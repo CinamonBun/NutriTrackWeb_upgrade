@@ -149,7 +149,7 @@ export default function About() {
                         className="grid grid-cols-1 md:grid-cols-3 gap-6"
                     >
 
-                        <motion.div variants={fadeInUp} className="md:col-span-2 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-sm hover:shadow-lg transition duration-300 group">
+                        <motion.div variants={fadeInUp} className="md:col-span-2 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-md transition duration-300 group">
                             <div className="w-12 h-12 bg-[#3dccc7]/10 dark:bg-[#3dccc7]/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
                                 <i className="fas fa-bullseye text-[#3dccc7] text-xl"></i>
                             </div>
@@ -159,7 +159,7 @@ export default function About() {
                             </p>
                         </motion.div>
 
-                        <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-sm hover:shadow-lg transition duration-300 group">
+                        <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-md transition duration-300 group">
                             <div className="w-12 h-12 bg-purple-500/10 dark:bg-purple-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
                                 <i className="fas fa-flask text-purple-500 dark:text-purple-400 text-xl"></i>
                             </div>
@@ -169,7 +169,7 @@ export default function About() {
                             </p>
                         </motion.div>
 
-                        <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-sm hover:shadow-lg transition duration-300 group">
+                        <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-md transition duration-300 group">
                             <div className="w-12 h-12 bg-green-500/10 dark:bg-green-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
                                 <i className="fas fa-shield-alt text-green-500 dark:text-green-400 text-xl"></i>
                             </div>

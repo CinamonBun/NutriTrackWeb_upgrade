@@ -130,7 +130,7 @@ export default function Features() {
                             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                         >
 
-                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-utensils text-primary text-2xl"></i>
                                 </div>
@@ -153,7 +153,7 @@ export default function Features() {
                                 </ul>
                             </motion.div>
 
-                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-chart-line text-secondary text-2xl"></i>
                                 </div>
@@ -176,7 +176,7 @@ export default function Features() {
                                 </ul>
                             </motion.div>
 
-                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-user-cog text-accent text-2xl"></i>
                                 </div>
@@ -199,7 +199,7 @@ export default function Features() {
                                 </ul>
                             </motion.div>
 
-                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-[#FFC107]/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-book-open text-[#FFC107] text-2xl"></i>
                                 </div>
@@ -222,7 +222,7 @@ export default function Features() {
                                 </ul>
                             </motion.div>
 
-                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-[#E91E63]/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-bell text-[#E91E63] text-2xl"></i>
                                 </div>
@@ -245,7 +245,7 @@ export default function Features() {
                                 </ul>
                             </motion.div>
 
-                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-[#9C27B0]/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-sync-alt text-[#9C27B0] text-2xl"></i>
                                 </div>
