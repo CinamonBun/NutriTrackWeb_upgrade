@@ -21,7 +21,12 @@ class IngredientController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $ingredients = $query->get();
+        $ingredients = $query->get()->map(function ($ingredient) {
+            if ($ingredient->image) {
+                $ingredient->image = asset('storage/' . $ingredient->image);
+            }
+            return $ingredient;
+        });
 
         return ApiResponse::success(
             $ingredients,
@@ -40,17 +45,33 @@ class IngredientController extends Controller
             'protein' => 'required|numeric|min:0',
             'carbs' => 'required|numeric|min:0',
             'fat' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($validator->fails()) {
             return ApiResponse::error(
                 'Validation error',
-                $validator->errors(),
+                implode("\n", $validator->errors()->all()),
                 422
             );
         }
 
-        $ingredient = Ingredient::create($request->all());
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+
+            $imagePath = $file->store('ingredients', 'public');
+        }
+
+        $ingredient = Ingredient::create([
+            'name' => $request->name,
+            'calories_per_100g' => $request->calories_per_100g,
+            'protein' => $request->protein,
+            'carbs' => $request->carbs,
+            'fat' => $request->fat,
+            'image' => $imagePath,
+        ]);
 
         return ApiResponse::success(
             $ingredient,

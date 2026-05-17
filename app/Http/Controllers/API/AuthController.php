@@ -33,20 +33,13 @@ class AuthController extends Controller
             'otp_expires_at' => Carbon::now()->addMinutes(10),
         ]);
 
-        // 🔥 SEND EMAIL VIA RESEND
-        Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('RESEND_API_KEY'),
-            'Content-Type' => 'application/json',
-        ])->post('https://api.resend.com/emails', [
-            'from' => 'NutriTrack <rahmatprayogo@gmail.com>',
+        $resend = Resend::client(config('services.resend.key'));
+
+        $resend->emails->send([
+            'from' => 'NutriTrack <onboarding@resend.dev>',
             'to' => [$user->email],
             'subject' => 'Your OTP Code',
-            'html' => "
-            <h2>Verify Your Email</h2>
-            <p>Your OTP code is:</p>
-            <h1>$otp</h1>
-            <p>This code will expire in 10 minutes.</p>
-        ",
+            'html' => "<h1>OTP: $otp</h1>"
         ]);
 
         return response()->json([
@@ -80,7 +73,7 @@ class AuthController extends Controller
         $resend = Resend::client(config('services.resend.key'));
 
         $resend->emails->send([
-            'from' => 'NutriTrack <rahmatprayogo@gmail.com>',
+            'from' => 'NutriTrack <onboarding@resend.dev>',
             'to' => [$user->email],
             'subject' => 'Your OTP Code',
             'html' => "<h1>OTP: $otp</h1>"
@@ -187,7 +180,7 @@ class AuthController extends Controller
         if (!$profile) {
             return response()->json([
                 'message' => 'Profile not found',
-                'profile' => null,
+                'data' => null,
             ], 404);
         }
 
@@ -225,6 +218,100 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Profile updated successfully',
             'data' => $profile,
+        ]);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        $otp = rand(100000, 999999);
+
+        $user->update([
+            'reset_otp' => $otp,
+            'reset_otp_expires_at' => Carbon::now()->addMinutes(10),
+        ]);
+
+        $resend = \Resend::client(config('services.resend.key'));
+
+        $resend->emails->send([
+            'from' => 'NutriTrack <onboarding@resend.dev>',
+            'to' => [$user->email],
+            'subject' => 'Reset Password OTP',
+            'html' => "<h1>Your Reset OTP: $otp</h1><p>Valid for 10 minutes</p>"
+        ]);
+
+        return response()->json([
+            'message' => 'Reset OTP sent to email'
+        ]);
+    }
+
+    public function verifyResetOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if ($user->reset_otp !== $request->otp) {
+            return response()->json(['message' => 'Invalid OTP'], 400);
+        }
+
+        if (Carbon::now()->gt($user->reset_otp_expires_at)) {
+            return response()->json(['message' => 'OTP expired'], 400);
+        }
+
+        return response()->json([
+            'message' => 'OTP verified. You can reset password now.'
+        ]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if ($user->reset_otp !== $request->otp) {
+            return response()->json(['message' => 'Invalid OTP'], 400);
+        }
+
+        if (Carbon::now()->gt($user->reset_otp_expires_at)) {
+            return response()->json(['message' => 'OTP expired'], 400);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+            'reset_otp' => null,
+            'reset_otp_expires_at' => null,
+        ]);
+
+        return response()->json([
+            'message' => 'Password reset successfully'
         ]);
     }
 }
