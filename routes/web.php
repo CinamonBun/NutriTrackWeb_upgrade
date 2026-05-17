@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminVerificationController;
 use Illuminate\Support\Facades\Route;
@@ -24,10 +24,9 @@ Route::get('/riviews', function () {
 
 
 
-Route::get('/dashboard', function () {
-    $logs = \App\Models\AdminAuditLog::with(['actor', 'target'])->orderBy('created_at', 'desc')->get();
-    return Inertia::render('Dashboard', ['auditLogs' => $logs]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+use App\Http\Controllers\DashboardController;
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

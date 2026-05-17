@@ -1,6 +1,21 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
+import { motion } from 'framer-motion';
+
+const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+};
+
+const staggerContainer = {
+    animate: {
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
 
 export default function Features() {
     return (
@@ -13,34 +28,58 @@ export default function Features() {
 
                 <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                        <div className="max-w-2xl">
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="initial"
+                            animate="animate"
+                            className="max-w-2xl"
+                        >
+                            <motion.h1
+                                variants={fadeInUp}
+                                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight"
+                            >
                                 Powerful Features for Your <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">Health Journey</span>
-                            </h1>
-                            <p className="mt-4 text-lg md:text-xl opacity-60 dark:opacity-70 leading-relaxed mb-8">
+                            </motion.h1>
+                            <motion.p
+                                variants={fadeInUp}
+                                className="mt-4 text-lg md:text-xl opacity-60 dark:opacity-70 leading-relaxed mb-8"
+                            >
                                 Everything you need to track, understand, and improve your diet. Discover tools that make healthy living effortless and enjoyable.
-                            </p>
+                            </motion.p>
 
-                            <div className="flex flex-wrap gap-4">
+                            <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
                                 <a href="#features" className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-primary-dark hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(61,204,199,0.3)]">
                                     Explore Features
                                 </a>
                                 <a href="#how" className="inline-flex items-center justify-center gap-2 bg-white dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] opacity-60 dark:opacity-70 px-6 py-3 rounded-full font-semibold backdrop-blur-sm transition-all duration-300 ease-in-out hover:opacity-100 hover:border-primary hover:text-primary hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(61,204,199,0.15)]">
                                     How It Works
                                 </a>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
 
-                        <div className="relative flex justify-center lg:justify-end group perspective-1000">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.8 }}
+                            className="relative flex justify-center lg:justify-end group perspective-1000"
+                        >
 
                             <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full scale-75 z-0 animate-pulse"></div>
 
-                            <div className="relative z-10 w-72 h-72 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px] transition-transform duration-500 hover:scale-105">
+                            <motion.div
+                                animate={{ y: [0, -15, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                className="relative z-10 w-72 h-72 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px] transition-transform duration-500 hover:scale-105"
+                            >
                                 <img
                                     src="assets/food.png"
                                     alt="Healthy Food Bowl"
                                     className="w-full h-full object-cover rounded-full shadow-2xl relative z-10" />
-                                <div className="absolute top-10 -left-4 md:top-16 md:-left-10 z-20 bg-white/40 dark:bg-[#2a2a2a]/10 backdrop-blur-md border border-white/40 dark:border-white/10 p-3 pr-5 rounded-2xl shadow-xl flex items-center gap-3 animate-[bounce_3s_infinite]">
+                                <motion.div
+                                    animate={{ y: [0, -10, 0] }}
+                                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                    className="absolute top-10 -left-4 md:top-16 md:-left-10 z-20 bg-white/40 dark:bg-[#2a2a2a]/10 backdrop-blur-md border border-white/40 dark:border-white/10 p-3 pr-5 rounded-2xl shadow-xl flex items-center gap-3"
+                                >
                                     <div className="w-10 h-10 bg-orange-500/20 rounded-full flex items-center justify-center text-orange-500">
                                         <i className="fas fa-fire"></i>
                                     </div>
@@ -48,8 +87,12 @@ export default function Features() {
                                         <p className="text-xs opacity-60 dark:opacity-70 uppercase tracking-wider font-semibold">Calories</p>
                                         <p className="text-sm font-bold">320 Kcal</p>
                                     </div>
-                                </div>
-                                <div className="absolute bottom-10 -right-4 md:bottom-16 md:-right-8 z-20 bg-white/40 dark:bg-[#2a2a2a]/10 backdrop-blur-md border border-white/40 dark:border-white/10 p-3 pr-5 rounded-2xl shadow-xl flex items-center gap-3 animate-[bounce_3s_infinite] delay-700">
+                                </motion.div>
+                                <motion.div
+                                    animate={{ y: [0, 10, 0] }}
+                                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                                    className="absolute bottom-10 -right-4 md:bottom-16 md:-right-8 z-20 bg-white/40 dark:bg-[#2a2a2a]/10 backdrop-blur-md border border-white/40 dark:border-white/10 p-3 pr-5 rounded-2xl shadow-xl flex items-center gap-3"
+                                >
                                     <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-primary">
                                         <i className="fas fa-drumstick-bite"></i>
                                     </div>
@@ -57,12 +100,12 @@ export default function Features() {
                                         <p className="text-xs opacity-60 dark:opacity-70 uppercase tracking-wider font-semibold">Protein</p>
                                         <p className="text-sm font-bold">24g High</p>
                                     </div>
-                                </div>
+                                </motion.div>
                                 <div className="absolute top-0 right-10 z-20 bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg">
                                     <i className="fas fa-check text-xs"></i>
                                 </div>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
@@ -79,9 +122,15 @@ export default function Features() {
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="initial"
+                            whileInView="animate"
+                            viewport={{ once: true, margin: "-100px" }}
+                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                        >
 
-                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-utensils text-primary text-2xl"></i>
                                 </div>
@@ -102,9 +151,9 @@ export default function Features() {
                                         <span>Meal photos</span>
                                     </li>
                                 </ul>
-                            </div>
+                            </motion.div>
 
-                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-chart-line text-secondary text-2xl"></i>
                                 </div>
@@ -125,9 +174,9 @@ export default function Features() {
                                         <span>Progress charts</span>
                                     </li>
                                 </ul>
-                            </div>
+                            </motion.div>
 
-                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-user-cog text-accent text-2xl"></i>
                                 </div>
@@ -148,9 +197,9 @@ export default function Features() {
                                         <span>Dietary preferences</span>
                                     </li>
                                 </ul>
-                            </div>
+                            </motion.div>
 
-                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-[#FFC107]/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-book-open text-[#FFC107] text-2xl"></i>
                                 </div>
@@ -171,9 +220,9 @@ export default function Features() {
                                         <span>Save favorites</span>
                                     </li>
                                 </ul>
-                            </div>
+                            </motion.div>
 
-                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-[#E91E63]/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-bell text-[#E91E63] text-2xl"></i>
                                 </div>
@@ -194,9 +243,9 @@ export default function Features() {
                                         <span>Custom schedules</span>
                                     </li>
                                 </ul>
-                            </div>
+                            </motion.div>
 
-                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-md hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="feature-icon w-16 h-16 bg-[#9C27B0]/10 rounded-2xl flex items-center justify-center mb-6">
                                     <i className="fas fa-sync-alt text-[#9C27B0] text-2xl"></i>
                                 </div>
@@ -217,8 +266,8 @@ export default function Features() {
                                         <span>Cloud backup</span>
                                     </li>
                                 </ul>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
                     </div>
                 </section>
 
@@ -230,8 +279,14 @@ export default function Features() {
                                 Mulai perjalanan kesehatan Anda hanya dalam tiga langkah sederhana
                             </p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="initial"
+                            whileInView="animate"
+                            viewport={{ once: true, margin: "-100px" }}
+                            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                        >
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="flex items-center gap-4 mb-6">
                                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
                                         <span className="text-xl font-bold text-primary">1</span>
@@ -258,9 +313,9 @@ export default function Features() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="flex items-center gap-4 mb-6">
                                     <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0">
                                         <span className="text-xl font-bold text-secondary">2</span>
@@ -292,9 +347,9 @@ export default function Features() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
+                            <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] p-8 rounded-xl shadow-sm hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] transition-all duration-300 flex flex-col h-full">
                                 <div className="flex items-center gap-4 mb-6">
                                     <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
                                         <span className="text-xl font-bold text-accent">3</span>
@@ -329,8 +384,8 @@ export default function Features() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
                     </div>
                 </section>
 

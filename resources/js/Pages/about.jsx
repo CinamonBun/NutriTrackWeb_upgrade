@@ -1,6 +1,37 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
+import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
+
+const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+};
+
+const staggerContainer = {
+    animate: {
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
+
+const Counter = ({ value, duration = 2 }) => {
+    const count = useMotionValue(0);
+    const rounded = useTransform(count, (latest) => Math.round(latest));
+    const ref = useRef(null);
+    const inView = useInView(ref, { once: true });
+
+    useEffect(() => {
+        if (inView) {
+            const animation = animate(count, value, { duration, ease: "easeOut" });
+            return animation.stop;
+        }
+    }, [inView, value, duration]);
+
+    return <motion.span ref={ref}>{rounded}</motion.span>;
+};
 
 export default function About() {
     return (
@@ -17,39 +48,60 @@ export default function About() {
 
                 <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
 
-                    <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] text-sm text-primary mb-6">
+                    <motion.div
+                        variants={staggerContainer}
+                        initial="initial"
+                        animate="animate"
+                    >
+                        <motion.div
+                            variants={fadeInUp}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] text-sm text-primary mb-6"
+                        >
                             <i className="fas fa-leaf"></i>
                             <span>Our Philosophy</span>
-                        </div>
+                        </motion.div>
 
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        <motion.h1
+                            variants={fadeInUp}
+                            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+                        >
                             Bridging <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3dccc7] to-green-400">Technology</span> with Biology.<br />
-                        </h1>
+                        </motion.h1>
 
-                        <p className="text-lg opacity-60 dark:opacity-70 mb-8 leading-relaxed">
+                        <motion.p
+                            variants={fadeInUp}
+                            className="text-lg opacity-60 dark:opacity-70 mb-8 leading-relaxed"
+                        >
                             Kami adalah tim nutrisionis dan engineer yang percaya bahwa kesehatan tidak harus rumit. Misi kami adalah mendemokratisasi akses ke gizi personal melalui kecerdasan buatan.
-                        </p>
+                        </motion.p>
 
-                        <div className="flex items-center gap-8 border-t border-white/10 pt-8">
+                        <motion.div
+                            variants={fadeInUp}
+                            className="flex items-center gap-8 border-t border-white/10 pt-8"
+                        >
                             <div>
-                                <h4 className="text-3xl font-bold">3+</h4>
+                                <h4 className="text-3xl font-bold"><Counter value={3} />+</h4>
                                 <p className="text-sm opacity-60 dark:opacity-70">Years Journey</p>
                             </div>
                             <div className="w-px h-10 border-r border-white/10"></div>
                             <div>
-                                <h4 className="text-3xl font-bold">50+</h4>
+                                <h4 className="text-3xl font-bold"><Counter value={50} />+</h4>
                                 <p className="text-sm opacity-60 dark:opacity-70">Team Members</p>
                             </div>
                             <div className="w-px h-10 border-l border-white/10"></div>
                             <div>
-                                <h4 className="text-3xl font-bold">1M+</h4>
+                                <h4 className="text-3xl font-bold"><Counter value={1} />M+</h4>
                                 <p className="text-sm opacity-60 dark:opacity-70">Meals Tracked</p>
                             </div>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
-                    <div className="grid grid-cols-2 gap-4 relative">
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="grid grid-cols-2 gap-4 relative"
+                    >
                         <div className="absolute -inset-4 bg-gradient-to-tr from-primary/20 to-transparent rounded-full blur-2xl -z-10"></div>
 
                         <div className="space-y-4 mt-8">
@@ -69,7 +121,7 @@ export default function About() {
                                 <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition" />
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                 </div>
             </section>
@@ -89,9 +141,15 @@ export default function About() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <motion.div
+                        variants={staggerContainer}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true, margin: "-100px" }}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                    >
 
-                        <div className="md:col-span-2 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-sm hover:shadow-lg transition duration-300 group">
+                        <motion.div variants={fadeInUp} className="md:col-span-2 bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-md transition duration-300 group">
                             <div className="w-12 h-12 bg-[#3dccc7]/10 dark:bg-[#3dccc7]/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
                                 <i className="fas fa-bullseye text-[#3dccc7] text-xl"></i>
                             </div>
@@ -99,9 +157,9 @@ export default function About() {
                             <p className="opacity-60 dark:opacity-70 leading-relaxed">
                                 Misi kami adalah mendemokratisasi akses ke ahli gizi pribadi. Kami percaya bahwa setiap orang berhak mendapatkan panduan kesehatan yang akurat, terjangkau, dan dipersonalisasi—bukan sekadar saran umum dari internet.
                             </p>
-                        </div>
+                        </motion.div>
 
-                        <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-sm hover:shadow-lg transition duration-300 group">
+                        <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-md transition duration-300 group">
                             <div className="w-12 h-12 bg-purple-500/10 dark:bg-purple-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
                                 <i className="fas fa-flask text-purple-500 dark:text-purple-400 text-xl"></i>
                             </div>
@@ -109,9 +167,9 @@ export default function About() {
                             <p className="opacity-60 dark:opacity-70">
                                 Setiap algoritma di NutriTrack divalidasi oleh jurnal medis terkemuka dan tim nutrisionis bersertifikat.
                             </p>
-                        </div>
+                        </motion.div>
 
-                        <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-sm hover:shadow-lg transition duration-300 group">
+                        <motion.div variants={fadeInUp} className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 hover:border-primary dark:hover:border-primary hover:shadow-[0_0_20px_rgba(61,204,199,0.15)] shadow-md transition duration-300 group">
                             <div className="w-12 h-12 bg-green-500/10 dark:bg-green-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
                                 <i className="fas fa-shield-alt text-green-500 dark:text-green-400 text-xl"></i>
                             </div>
@@ -119,9 +177,9 @@ export default function About() {
                             <p className="opacity-60 dark:opacity-70">
                                 Data kesehatan Anda adalah milik Anda. Kami menggunakan enkripsi end-to-end dan tidak pernah menjual data ke pihak ketiga.
                             </p>
-                        </div>
+                        </motion.div>
 
-                        <div className="md:col-span-2 relative overflow-hidden bg-gradient-to-r from-[#ffffff] to-[#ececec] dark:from-[#1a1a1a] dark:to-[#2a2a2a] bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 group cursor-pointer">
+                        <motion.div variants={fadeInUp} className="md:col-span-2 relative overflow-hidden bg-gradient-to-r from-[#ffffff] to-[#ececec] dark:from-[#1a1a1a] dark:to-[#2a2a2a] bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 group cursor-pointer">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#3dccc7]/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[#3dccc7]/20 transition duration-500"></div>
 
                             <div className="relative z-10 text-center md:text-left">
@@ -135,9 +193,9 @@ export default function About() {
                                 Meet the Creators
                                 <i className="fas fa-arrow-right"></i>
                             </Link>
-                        </div>
+                        </motion.div>
 
-                    </div>
+                    </motion.div>
                 </div>
             </section>
         </AppLayout>

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ApiController;
 use App\Http\Controllers\API\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -8,8 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\API\MoodController;
-use App\Http\Controllers\API\FoodController;
-use App\Http\Controllers\API\FoodLogController;
+use App\Http\Controllers\FoodLogController;
 use App\Http\Controllers\API\IngredientController;
 use App\Http\Controllers\API\InsightController;
 use App\Http\Controllers\API\RecipeController;

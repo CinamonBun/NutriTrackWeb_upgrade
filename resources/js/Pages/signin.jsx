@@ -94,8 +94,34 @@ export default function Signin() {
                             boxShadow: shadow,
                             transformStyle: "preserve-3d",
                         }}
-                        className="bg-white/80 dark:bg-[#2a2a2a]/80 backdrop-blur-xl border border-white/20 dark:border-neutral-700/30 rounded-2xl shadow-2xl p-8"
+                        className="relative bg-white/80 dark:bg-[#2a2a2a]/80 backdrop-blur-xl border border-white/20 dark:border-neutral-700/30 rounded-2xl shadow-2xl p-8 overflow-hidden"
                     >
+                        {/* Glowing Border Lines */}
+                        <motion.div
+                            initial={{ left: "-100%" }}
+                            animate={{ left: "100%" }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "linear", delay: 0 }}
+                            className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent z-10 opacity-50"
+                        />
+                        <motion.div
+                            initial={{ top: "-100%" }}
+                            animate={{ top: "100%" }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "linear", delay: 0.5 }}
+                            className="absolute top-0 right-0 w-[1px] h-full bg-gradient-to-b from-transparent via-primary to-transparent z-10 opacity-50"
+                        />
+                        <motion.div
+                            initial={{ right: "-100%" }}
+                            animate={{ right: "100%" }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "linear", delay: 1 }}
+                            className="absolute bottom-0 right-0 w-full h-[1px] bg-gradient-to-l from-transparent via-primary to-transparent z-10 opacity-50"
+                        />
+                        <motion.div
+                            initial={{ bottom: "-100%" }}
+                            animate={{ bottom: "100%" }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "linear", delay: 1.5 }}
+                            className="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-t from-transparent via-primary to-transparent z-10 opacity-50"
+                        />
+
                         <form className="space-y-4" onSubmit={submit}>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium mb-2">
