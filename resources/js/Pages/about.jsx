@@ -63,14 +63,14 @@ export default function About() {
 
                         <motion.h1
                             variants={fadeInUp}
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+                            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-gray-200"
                         >
                             Bridging <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3dccc7] to-green-400">Technology</span> with Biology.<br />
                         </motion.h1>
 
                         <motion.p
                             variants={fadeInUp}
-                            className="text-lg opacity-60 dark:opacity-70 mb-8 leading-relaxed"
+                            className="text-lg mb-8 leading-relaxed text-gray-600 dark:text-gray-300"
                         >
                             Kami adalah tim nutrisionis dan engineer yang percaya bahwa kesehatan tidak harus rumit. Misi kami adalah mendemokratisasi akses ke gizi personal melalui kecerdasan buatan.
                         </motion.p>

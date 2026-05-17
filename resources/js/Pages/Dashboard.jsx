@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
 import {
@@ -45,6 +46,10 @@ const StatCard = ({ title, value, icon: Icon, trend, color }) => (
 
 export default function Dashboard({ stats, growthData, topIngredients, auditLogs = [] }) {
     const { auth } = usePage().props;
+    const [showAll, setShowAll] = useState(false);
+
+    const displayLimit = showAll ? 7 : 4;
+    const visibleLogs = auditLogs.slice(0, displayLimit);
 
     const COLORS = ['#3dccc7', '#6366f1', '#a855f7', '#f43f5e', '#f59e0b'];
 
@@ -57,7 +62,7 @@ export default function Dashboard({ stats, growthData, topIngredients, auditLogs
                     {/* Header */}
                     <div className="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div>
-                            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Command Center</h1>
+                            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight opacity-90">Command Center</h1>
                             <p className="mt-2 text-lg opacity-60 dark:opacity-70">
                                 Global platform insights for <span className="font-semibold text-[#3dccc7]">{auth?.user?.name || 'Admin'}</span>
                             </p>
@@ -107,7 +112,7 @@ export default function Dashboard({ stats, growthData, topIngredients, auditLogs
                             <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 shadow-sm">
                                 <div className="flex items-center justify-between mb-8">
                                     <div>
-                                        <h3 className="text-xl font-bold">User Growth</h3>
+                                        <h3 className="text-xl font-bold opacity-90">User Growth</h3>
                                         <p className="text-sm opacity-60">Daily registrations (Last 7 days)</p>
                                     </div>
                                     <button className="text-sm text-[#3dccc7] hover:underline font-medium flex items-center gap-1">
@@ -160,7 +165,7 @@ export default function Dashboard({ stats, growthData, topIngredients, auditLogs
 
                             {/* Popular Ingredients */}
                             <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-8 shadow-sm">
-                                <h3 className="text-xl font-bold mb-6">Popular Ingredients</h3>
+                                <h3 className="text-xl font-bold mb-6 opacity-90">Popular Ingredients</h3>
                                 <div className="space-y-6">
                                     {topIngredients.map((item, index) => (
                                         <div key={item.name} className="flex items-center gap-4">
@@ -189,18 +194,18 @@ export default function Dashboard({ stats, growthData, topIngredients, auditLogs
                         <div className="lg:col-span-1">
                             <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-3xl p-6 shadow-sm sticky top-36">
                                 <div className="flex items-center justify-between mb-6">
-                                    <h3 className="text-lg font-bold flex items-center gap-2">
+                                    <h3 className="text-lg font-bold flex items-center gap-2 opacity-90">
                                         <Clock className="h-5 w-5 text-[#3dccc7]" />
                                         Audit Logs
                                     </h3>
                                     <ArrowUpRight className="h-4 w-4 opacity-40" />
                                 </div>
                                 <div className="space-y-6 max-h-[600px] overflow-y-auto pr-2 scrollbar-hide">
-                                    {auditLogs.length > 0 ? (
-                                        <div className="relative border-l-2 border-neutral-100 dark:border-neutral-800 ml-3 space-y-8">
-                                            {auditLogs.map((log) => (
+                                    {visibleLogs.length > 0 ? (
+                                        <div className="relative border-l-2 border-[#cccccc] dark:border-[#404040] ml-3 space-y-8">
+                                            {visibleLogs.map((log) => (
                                                 <div key={log.id} className="relative pl-8">
-                                                    <div className="absolute w-2.5 h-2.5 bg-[#3dccc7] rounded-full -left-[6.5px] top-1.5 border-2 border-[#ffffff] dark:border-[#2a2a2a]"></div>
+                                                    <div className="absolute w-2.5 h-2.5 bg-[#3dccc7] rounded-full -left-[6px] top-1.5 border-2 border-[#ffffff] dark:border-[#2a2a2a]"></div>
                                                     <div>
                                                         <p className="text-sm leading-relaxed mb-1">
                                                             <span className="font-semibold text-[#3dccc7]">{log.actor?.name}</span> {log.action} <span className="font-semibold">{log.target?.name}</span>
@@ -218,9 +223,14 @@ export default function Dashboard({ stats, growthData, topIngredients, auditLogs
                                         </div>
                                     )}
                                 </div>
-                                <button className="w-full mt-6 py-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
-                                    View All Activities
-                                </button>
+                                {auditLogs.length > 4 && (
+                                    <button
+                                        onClick={() => setShowAll(!showAll)}
+                                        className="w-full mt-6 py-3 bg-neutral-300/60 dark:bg-neutral-700/60 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors opacity-70 dark:opacity-70"
+                                    >
+                                        {showAll ? 'Show Less' : 'View All Activities'}
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>

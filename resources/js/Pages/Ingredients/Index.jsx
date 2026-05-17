@@ -116,13 +116,13 @@ export default function Index({ ingredients }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center mb-8">
                         <div>
-                            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Ingredients</h1>
+                            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight opacity-90">Ingredients</h1>
                             <p className="mt-2 text-lg opacity-60 dark:opacity-70">Manage your ingredients and track nutrition information.</p>
                         </div>
                         <div className="flex gap-3">
                             <button
                                 onClick={handleExport}
-                                className="px-5 py-2.5 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2"
+                                className="px-5 py-2.5 bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -131,7 +131,7 @@ export default function Index({ ingredients }) {
                             </button>
                             <button
                                 onClick={() => setIsImportModalOpen(true)}
-                                className="px-5 py-2.5 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2"
+                                className="px-5 py-2.5 bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
@@ -180,7 +180,7 @@ export default function Index({ ingredients }) {
                                             <td className="px-6 py-4 opacity-80">{item.carbs}</td>
                                             <td className="px-6 py-4 opacity-80">{item.fat}</td>
                                             <td className="px-6 py-4 text-right space-x-2">
-                                                <button onClick={() => openModal(item)} className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium bg-[#3dccc7]/10 text-[#3dccc7] hover:bg-[#3dccc7]/20 rounded-lg transition-colors">
+                                                <button onClick={() => openModal(item)} className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium bg-[#3dccc7]/20 text-[#3dccc7] hover:bg-[#3dccc7]/30 rounded-lg transition-colors">
                                                     Edit
                                                 </button>
                                                 <button onClick={() => confirmDelete(item)} className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 rounded-lg transition-colors">
@@ -208,96 +208,96 @@ export default function Index({ ingredients }) {
                     <button onClick={closeModal} className="opacity-60 hover:opacity-100 transition-opacity">✕</button>
                 </div>
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                    <div>
+                        <InputLabel htmlFor="name" value="Name" className="text-black dark:text-white" />
+                        <TextInput
+                            id="name"
+                            value={data.name}
+                            onChange={e => setData('name', e.target.value)}
+                            className="mt-1 block w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-500 dark:placeholder-gray-300 transition duration-200"
+                            required
+                        />
+                        <InputError message={errors.name} className="mt-2" />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <InputLabel htmlFor="name" value="Name" className="text-black dark:text-white" />
+                            <InputLabel htmlFor="calories_per_100g" value="Calories per 100g (kcal)" className="text-black dark:text-white" />
                             <TextInput
-                                id="name"
-                                value={data.name}
-                                onChange={e => setData('name', e.target.value)}
+                                id="calories_per_100g"
+                                type="number"
+                                step="0.1"
+                                value={data.calories_per_100g}
+                                onChange={e => setData('calories_per_100g', e.target.value)}
                                 className="mt-1 block w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-500 dark:placeholder-gray-300 transition duration-200"
                                 required
                             />
-                            <InputError message={errors.name} className="mt-2" />
+                            <InputError message={errors.calories_per_100g} className="mt-2" />
                         </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <InputLabel htmlFor="calories_per_100g" value="Calories per 100g (kcal)" className="text-black dark:text-white" />
-                                <TextInput
-                                    id="calories_per_100g"
-                                    type="number"
-                                    step="0.1"
-                                    value={data.calories_per_100g}
-                                    onChange={e => setData('calories_per_100g', e.target.value)}
-                                    className="mt-1 block w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-500 dark:placeholder-gray-300 transition duration-200"
-                                    required
-                                />
-                                <InputError message={errors.calories_per_100g} className="mt-2" />
-                            </div>
-                            <div>
-                                <InputLabel htmlFor="protein" value="Protein (g)" className="text-black dark:text-white" />
-                                <TextInput
-                                    id="protein"
-                                    type="number"
-                                    step="0.1"
-                                    value={data.protein}
-                                    onChange={e => setData('protein', e.target.value)}
-                                    className="mt-1 block w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-500 dark:placeholder-gray-300 transition duration-200"
-                                    required
-                                />
-                                <InputError message={errors.protein} className="mt-2" />
-                            </div>
-                            <div>
-                                <InputLabel htmlFor="carbs" value="Carbs (g)" className="text-black dark:text-white" />
-                                <TextInput
-                                    id="carbs"
-                                    type="number"
-                                    step="0.1"
-                                    value={data.carbs}
-                                    onChange={e => setData('carbs', e.target.value)}
-                                    className="mt-1 block w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-500 dark:placeholder-gray-300 transition duration-200"
-                                    required
-                                />
-                                <InputError message={errors.carbs} className="mt-2" />
-                            </div>
-                            <div>
-                                <InputLabel htmlFor="fat" value="Fat (g)" className="text-black dark:text-white" />
-                                <TextInput
-                                    id="fat"
-                                    type="number"
-                                    step="0.1"
-                                    value={data.fat}
-                                    onChange={e => setData('fat', e.target.value)}
-                                    className="mt-1 block w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-500 dark:placeholder-gray-300 transition duration-200"
-                                    required
-                                />
-                                <InputError message={errors.fat} className="mt-2" />
-                            </div>
-                        </div>
-
                         <div>
-                            <InputLabel htmlFor="image" value="Image (Optional)" className="text-black dark:text-white" />
-                            <input
-                                type="file"
-                                id="image"
-                                onChange={e => setData('image', e.target.files[0])}
-                                className="mt-1 block w-full text-sm text-gray-400 dark:text-gray-300
+                            <InputLabel htmlFor="protein" value="Protein (g)" className="text-black dark:text-white" />
+                            <TextInput
+                                id="protein"
+                                type="number"
+                                step="0.1"
+                                value={data.protein}
+                                onChange={e => setData('protein', e.target.value)}
+                                className="mt-1 block w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-500 dark:placeholder-gray-300 transition duration-200"
+                                required
+                            />
+                            <InputError message={errors.protein} className="mt-2" />
+                        </div>
+                        <div>
+                            <InputLabel htmlFor="carbs" value="Carbs (g)" className="text-black dark:text-white" />
+                            <TextInput
+                                id="carbs"
+                                type="number"
+                                step="0.1"
+                                value={data.carbs}
+                                onChange={e => setData('carbs', e.target.value)}
+                                className="mt-1 block w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-500 dark:placeholder-gray-300 transition duration-200"
+                                required
+                            />
+                            <InputError message={errors.carbs} className="mt-2" />
+                        </div>
+                        <div>
+                            <InputLabel htmlFor="fat" value="Fat (g)" className="text-black dark:text-white" />
+                            <TextInput
+                                id="fat"
+                                type="number"
+                                step="0.1"
+                                value={data.fat}
+                                onChange={e => setData('fat', e.target.value)}
+                                className="mt-1 block w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-500 dark:placeholder-gray-300 transition duration-200"
+                                required
+                            />
+                            <InputError message={errors.fat} className="mt-2" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <InputLabel htmlFor="image" value="Image (Optional)" className="text-black dark:text-white" />
+                        <input
+                            type="file"
+                            id="image"
+                            onChange={e => setData('image', e.target.files[0])}
+                            className="mt-1 block w-full text-sm text-gray-400 dark:text-gray-300
                                 file:mr-4 file:py-2 file:px-4
                                 file:rounded-full file:border-0
                                 file:text-sm file:font-semibold
                                 file:bg-[#3dccc7]/15 file:text-[#3dccc7]
                                 hover:file:bg-[#3dccc7]/20"
-                            />
-                            <InputError message={errors.image} className="mt-2" />
-                        </div>
+                        />
+                        <InputError message={errors.image} className="mt-2" />
+                    </div>
 
-                        <div className="pt-2 flex justify-end gap-3">
-                            <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
-                            <PrimaryButton disabled={processing}>
-                                {editingId ? 'Save Changes' : 'Add Ingredient'}
-                            </PrimaryButton>
-                        </div>
-                    </form>
+                    <div className="pt-2 flex justify-end gap-3">
+                        <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
+                        <PrimaryButton disabled={processing}>
+                            {editingId ? 'Save Changes' : 'Add Ingredient'}
+                        </PrimaryButton>
+                    </div>
+                </form>
             </Modal>
 
             <Modal show={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
@@ -327,7 +327,7 @@ export default function Index({ ingredients }) {
                 </div>
                 <form onSubmit={handleImportSubmit} className="p-6 space-y-4">
                     <p className="text-sm opacity-60">
-                        Upload an Excel file (.xlsx, .xls) or CSV containing ingredient data. 
+                        Upload an Excel file (.xlsx, .xls) or CSV containing ingredient data.
                         Required columns: <strong>name, calories_per_100g, protein, carbs, fat</strong>.
                     </p>
                     <div>

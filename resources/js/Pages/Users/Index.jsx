@@ -259,7 +259,7 @@ export default function Index({ users }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center mb-8">
                         <div>
-                            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Users Management</h1>
+                            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight opacity-90">Users Management</h1>
                             <p className="mt-2 text-lg opacity-60 dark:opacity-70">Manage user accounts and roles.</p>
                         </div>
                         <button onClick={() => setIsCreateModalOpen(true)} className="px-5 py-2.5 bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium rounded-xl transition-colors shadow-sm">
@@ -294,10 +294,10 @@ export default function Index({ users }) {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-right space-x-2">
-                                                <button onClick={() => handleResetPassword(user)} className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600 rounded-lg transition-colors" title="Reset password with code">
+                                                <button onClick={() => handleResetPassword(user)} className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 rounded-lg transition-colors" title="Reset password with code">
                                                     Reset Pass
                                                 </button>
-                                                <button onClick={() => handleEditClick(user)} className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium bg-[#3dccc7]/10 text-[#3dccc7] hover:bg-[#3dccc7]/20 rounded-lg transition-colors">
+                                                <button onClick={() => handleEditClick(user)} className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium bg-[#3dccc7]/20 text-[#3dccc7] hover:bg-[#3dccc7]/30 rounded-lg transition-colors">
                                                     Role
                                                 </button>
                                                 <button onClick={() => handleDelete(user)} disabled={user.id === currentUser.id} className={`inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${user.id === currentUser.id ? 'opacity-50 cursor-not-allowed bg-neutral-100 text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500' : 'bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400'}`}>
@@ -315,63 +315,63 @@ export default function Index({ users }) {
 
             {/* Create Modal */}
             <Modal show={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} maxWidth="md">
-                    <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-center">
-                        <div>
-                            <h3 className="text-lg font-bold">Add New User</h3>
-                            <p className="text-xs opacity-60">Personal details can only be changed by the user.</p>
-                        </div>
-                        <button onClick={() => setIsCreateModalOpen(false)} className="opacity-60 hover:opacity-100 transition-opacity">✕</button>
+                <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-center">
+                    <div>
+                        <h3 className="text-lg font-bold">Add New User</h3>
+                        <p className="text-xs opacity-60">Personal details can only be changed by the user.</p>
                     </div>
-                    <form onSubmit={handleCreateSubmit} className="p-6 space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Name</label>
-                            <input type="text" value={createData.name} onChange={e => setCreateData('name', e.target.value)} required className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all" />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Email</label>
-                            <input type="email" value={createData.email} onChange={e => setCreateData('email', e.target.value)} required className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all" />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Password</label>
-                            <input type="password" value={createData.password} onChange={e => setCreateData('password', e.target.value)} required minLength={8} className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all" />
-                        </div>
-                        <div className="relative">
-                            <label className="block text-sm font-medium mb-1">Role</label>
-                            <button
-                                type="button"
-                                onClick={() => setIsCreateRoleOpen(!isCreateRoleOpen)}
-                                className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all flex justify-between items-center"
-                            >
-                                <span className="capitalize">{createData.role}</span>
-                                <svg className={`w-4 h-4 transition-transform duration-200 ${isCreateRoleOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
+                    <button onClick={() => setIsCreateModalOpen(false)} className="opacity-60 hover:opacity-100 transition-opacity">✕</button>
+                </div>
+                <form onSubmit={handleCreateSubmit} className="p-6 space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Name</label>
+                        <input type="text" value={createData.name} onChange={e => setCreateData('name', e.target.value)} required className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all" />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Email</label>
+                        <input type="email" value={createData.email} onChange={e => setCreateData('email', e.target.value)} required className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all" />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Password</label>
+                        <input type="password" value={createData.password} onChange={e => setCreateData('password', e.target.value)} required minLength={8} className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all" />
+                    </div>
+                    <div className="relative">
+                        <label className="block text-sm font-medium mb-1">Role</label>
+                        <button
+                            type="button"
+                            onClick={() => setIsCreateRoleOpen(!isCreateRoleOpen)}
+                            className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all flex justify-between items-center"
+                        >
+                            <span className="capitalize">{createData.role}</span>
+                            <svg className={`w-4 h-4 transition-transform duration-200 ${isCreateRoleOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
 
-                            {isCreateRoleOpen && (
-                                <div className="absolute z-50 top-full mt-2 w-full bg-white dark:bg-[#2a2a2a] border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl overflow-hidden fade-in">
-                                    <button
-                                        type="button"
-                                        onClick={() => { setCreateData('role', 'user'); setIsCreateRoleOpen(false); }}
-                                        className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${createData.role === 'user' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
-                                    >
-                                        User
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => { setCreateData('role', 'admin'); setIsCreateRoleOpen(false); }}
-                                        className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${createData.role === 'admin' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
-                                    >
-                                        Admin
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                        <div className="pt-2 flex justify-end space-x-3">
-                            <button type="button" onClick={() => setIsCreateModalOpen(false)} className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">Cancel</button>
-                            <button type="submit" disabled={createProcessing} className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50">Create User</button>
-                        </div>
-                    </form>
+                        {isCreateRoleOpen && (
+                            <div className="absolute z-50 top-full mt-2 w-full bg-white dark:bg-[#2a2a2a] border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl overflow-hidden fade-in">
+                                <button
+                                    type="button"
+                                    onClick={() => { setCreateData('role', 'user'); setIsCreateRoleOpen(false); }}
+                                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${createData.role === 'user' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
+                                >
+                                    User
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => { setCreateData('role', 'admin'); setIsCreateRoleOpen(false); }}
+                                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${createData.role === 'admin' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
+                                >
+                                    Admin
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                    <div className="pt-2 flex justify-end space-x-3">
+                        <button type="button" onClick={() => setIsCreateModalOpen(false)} className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">Cancel</button>
+                        <button type="submit" disabled={createProcessing} className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50">Create User</button>
+                    </div>
+                </form>
             </Modal>
 
             {/* Edit Modal */}
@@ -387,9 +387,80 @@ export default function Index({ users }) {
                 }}
                 maxWidth="md"
             >
-                    <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-center">
-                        <h3 className="text-lg font-bold">Change User Role</h3>
+                <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-center">
+                    <h3 className="text-lg font-bold">Change User Role</h3>
+                    <button
+                        onClick={() => {
+                            setIsEditModalOpen(false);
+                            setEditingUser(null);
+                            setEditInitialData(null);
+                            setEditOtpStep('idle');
+                            setEditOtpCode('');
+                            setEditOtpError('');
+                        }}
+                        className="opacity-60 hover:opacity-100 transition-opacity"
+                    >
+                        ✕
+                    </button>
+                </div>
+                <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
+                    <div className="bg-neutral-50 dark:bg-neutral-800/50 p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 mb-4">
+                        <p className="text-xs opacity-60 uppercase tracking-wider font-semibold mb-1">Target User</p>
+                        <p className="font-medium">{editingUser?.email}</p>
+                    </div>
+                    <div className="relative">
+                        <label className="block text-sm font-medium mb-1">Role</label>
                         <button
+                            type="button"
+                            onClick={() => setIsEditRoleOpen(!isEditRoleOpen)}
+                            className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all flex justify-between items-center"
+                        >
+                            <span className="capitalize">{editData.role}</span>
+                            <svg className={`w-4 h-4 transition-transform duration-200 ${isEditRoleOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        {isEditRoleOpen && (
+                            <div className="absolute z-50 top-full mt-2 w-full bg-white dark:bg-[#2a2a2a] border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl overflow-hidden fade-in">
+                                <button
+                                    type="button"
+                                    onClick={() => { setEditData('role', 'user'); setIsEditRoleOpen(false); }}
+                                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${editData.role === 'user' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
+                                >
+                                    User
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => { setEditData('role', 'admin'); setIsEditRoleOpen(false); }}
+                                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${editData.role === 'admin' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
+                                >
+                                    Admin
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                    {isEditDirty && editNeedsOtp && editOtpStep === 'sent' && (
+                        <div>
+                            <label className="block text-sm font-medium mb-1">OTP Code</label>
+                            <input
+                                type="text"
+                                maxLength={6}
+                                placeholder="000000"
+                                value={editOtpCode}
+                                onChange={(e) => setEditOtpCode(e.target.value)}
+                                required
+                                className="w-full text-center tracking-[0.5em] font-mono text-xl px-4 py-3 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all"
+                            />
+                            <p className="text-xs opacity-60 mt-2">
+                                A 6-digit code was sent to the <strong>target admin email</strong>. Please ask them for the code to proceed.
+                            </p>
+                        </div>
+                    )}
+                    {editOtpError && <p className="text-red-500 text-sm">{editOtpError}</p>}
+                    <div className="pt-2 flex justify-end space-x-3">
+                        <button
+                            type="button"
                             onClick={() => {
                                 setIsEditModalOpen(false);
                                 setEditingUser(null);
@@ -398,113 +469,42 @@ export default function Index({ users }) {
                                 setEditOtpCode('');
                                 setEditOtpError('');
                             }}
-                            className="opacity-60 hover:opacity-100 transition-opacity"
+                            className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                         >
-                            ✕
+                            Cancel
                         </button>
-                    </div>
-                    <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
-                        <div className="bg-neutral-50 dark:bg-neutral-800/50 p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 mb-4">
-                            <p className="text-xs opacity-60 uppercase tracking-wider font-semibold mb-1">Target User</p>
-                            <p className="font-medium">{editingUser?.email}</p>
-                        </div>
-                        <div className="relative">
-                            <label className="block text-sm font-medium mb-1">Role</label>
+                        {!isEditDirty ? (
+                            <button type="button" disabled className="px-4 py-2 rounded-xl bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400 font-medium transition-colors cursor-not-allowed">
+                                No Changes
+                            </button>
+                        ) : !editNeedsOtp ? (
+                            <button
+                                type="submit"
+                                disabled={isUpdatingUser || isRequestingEditOtp}
+                                className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
+                            >
+                                Update
+                            </button>
+                        ) : editOtpStep !== 'sent' ? (
                             <button
                                 type="button"
-                                onClick={() => setIsEditRoleOpen(!isEditRoleOpen)}
-                                className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all flex justify-between items-center"
+                                onClick={requestEditVerification}
+                                disabled={isRequestingEditOtp || isUpdatingUser}
+                                className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
                             >
-                                <span className="capitalize">{editData.role}</span>
-                                <svg className={`w-4 h-4 transition-transform duration-200 ${isEditRoleOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                </svg>
+                                Request Verification
                             </button>
-
-                            {isEditRoleOpen && (
-                                <div className="absolute z-50 top-full mt-2 w-full bg-white dark:bg-[#2a2a2a] border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl overflow-hidden fade-in">
-                                    <button
-                                        type="button"
-                                        onClick={() => { setEditData('role', 'user'); setIsEditRoleOpen(false); }}
-                                        className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${editData.role === 'user' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
-                                    >
-                                        User
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => { setEditData('role', 'admin'); setIsEditRoleOpen(false); }}
-                                        className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${editData.role === 'admin' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
-                                    >
-                                        Admin
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                        {isEditDirty && editNeedsOtp && editOtpStep === 'sent' && (
-                            <div>
-                                <label className="block text-sm font-medium mb-1">OTP Code</label>
-                                <input
-                                    type="text"
-                                    maxLength={6}
-                                    placeholder="000000"
-                                    value={editOtpCode}
-                                    onChange={(e) => setEditOtpCode(e.target.value)}
-                                    required
-                                    className="w-full text-center tracking-[0.5em] font-mono text-xl px-4 py-3 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all"
-                                />
-                                <p className="text-xs opacity-60 mt-2">
-                                    A 6-digit code was sent to the <strong>target admin email</strong>. Please ask them for the code to proceed.
-                                </p>
-                            </div>
+                        ) : (
+                            <button
+                                type="submit"
+                                disabled={isUpdatingUser || isRequestingEditOtp || editOtpCode.length !== 6}
+                                className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
+                            >
+                                Update
+                            </button>
                         )}
-                        {editOtpError && <p className="text-red-500 text-sm">{editOtpError}</p>}
-                        <div className="pt-2 flex justify-end space-x-3">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setIsEditModalOpen(false);
-                                    setEditingUser(null);
-                                    setEditInitialData(null);
-                                    setEditOtpStep('idle');
-                                    setEditOtpCode('');
-                                    setEditOtpError('');
-                                }}
-                                className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                            >
-                                Cancel
-                            </button>
-                            {!isEditDirty ? (
-                                <button type="button" disabled className="px-4 py-2 rounded-xl bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400 font-medium transition-colors cursor-not-allowed">
-                                    No Changes
-                                </button>
-                            ) : !editNeedsOtp ? (
-                                <button
-                                    type="submit"
-                                    disabled={isUpdatingUser || isRequestingEditOtp}
-                                    className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
-                                >
-                                    Update
-                                </button>
-                            ) : editOtpStep !== 'sent' ? (
-                                <button
-                                    type="button"
-                                    onClick={requestEditVerification}
-                                    disabled={isRequestingEditOtp || isUpdatingUser}
-                                    className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
-                                >
-                                    Request Verification
-                                </button>
-                            ) : (
-                                <button
-                                    type="submit"
-                                    disabled={isUpdatingUser || isRequestingEditOtp || editOtpCode.length !== 6}
-                                    className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
-                                >
-                                    Update
-                                </button>
-                            )}
-                        </div>
-                    </form>
+                    </div>
+                </form>
             </Modal>
 
             {/* Delete Modal */}
@@ -519,69 +519,69 @@ export default function Index({ users }) {
                 }}
                 maxWidth="md"
             >
-                    <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-center">
-                        <h3 className="text-lg font-bold text-red-500">Delete User</h3>
+                <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-center">
+                    <h3 className="text-lg font-bold text-red-500">Delete User</h3>
+                    <button
+                        onClick={() => {
+                            setIsDeleteModalOpen(false);
+                            setDeletingUser(null);
+                            setDeleteConfirmText('');
+                            setDeletePassword('');
+                            setDeleteError('');
+                        }}
+                        className="opacity-60 hover:opacity-100 transition-opacity"
+                    >
+                        ✕
+                    </button>
+                </div>
+
+                <form onSubmit={handleDeleteSubmit} className="p-6 space-y-4">
+                    <p className="text-sm opacity-80">
+                        This action will permanently delete user <strong>{deletingUser?.email}</strong>. This cannot be undone.
+                    </p>
+                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/40 rounded-xl p-4 text-sm">
+                        <p className="font-semibold text-red-700 dark:text-red-300 mb-1">Double check</p>
+                        <p className="opacity-80">Type <strong>Confirm</strong> to enable delete.</p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Type "Confirm"</label>
+                        <input
+                            type="text"
+                            value={deleteConfirmText}
+                            onChange={(e) => setDeleteConfirmText(e.target.value)}
+                            placeholder="Confirm"
+                            className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Your password</label>
+                        <input
+                            type="password"
+                            value={deletePassword}
+                            onChange={(e) => setDeletePassword(e.target.value)}
+                            placeholder="Enter your admin password"
+                            className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all"
+                        />
+                        <p className="text-xs opacity-60 mt-2">We require your password to confirm this action.</p>
+                    </div>
+                    {deleteError && <p className="text-red-500 text-sm">{deleteError}</p>}
+                    <div className="pt-2 flex justify-end space-x-3">
                         <button
-                            onClick={() => {
-                                setIsDeleteModalOpen(false);
-                                setDeletingUser(null);
-                                setDeleteConfirmText('');
-                                setDeletePassword('');
-                                setDeleteError('');
-                            }}
-                            className="opacity-60 hover:opacity-100 transition-opacity"
+                            type="button"
+                            onClick={() => setIsDeleteModalOpen(false)}
+                            className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                         >
-                            ✕
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={isDeleting || deleteConfirmText !== 'Confirm' || !deletePassword}
+                            className="px-4 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white font-medium transition-colors disabled:opacity-50"
+                        >
+                            Delete
                         </button>
                     </div>
-
-                    <form onSubmit={handleDeleteSubmit} className="p-6 space-y-4">
-                        <p className="text-sm opacity-80">
-                            This action will permanently delete user <strong>{deletingUser?.email}</strong>. This cannot be undone.
-                        </p>
-                        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/40 rounded-xl p-4 text-sm">
-                            <p className="font-semibold text-red-700 dark:text-red-300 mb-1">Double check</p>
-                            <p className="opacity-80">Type <strong>Confirm</strong> to enable delete.</p>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Type "Confirm"</label>
-                            <input
-                                type="text"
-                                value={deleteConfirmText}
-                                onChange={(e) => setDeleteConfirmText(e.target.value)}
-                                placeholder="Confirm"
-                                className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Your password</label>
-                            <input
-                                type="password"
-                                value={deletePassword}
-                                onChange={(e) => setDeletePassword(e.target.value)}
-                                placeholder="Enter your admin password"
-                                className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all"
-                            />
-                            <p className="text-xs opacity-60 mt-2">We require your password to confirm this action.</p>
-                        </div>
-                        {deleteError && <p className="text-red-500 text-sm">{deleteError}</p>}
-                        <div className="pt-2 flex justify-end space-x-3">
-                            <button
-                                type="button"
-                                onClick={() => setIsDeleteModalOpen(false)}
-                                className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                disabled={isDeleting || deleteConfirmText !== 'Confirm' || !deletePassword}
-                                className="px-4 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white font-medium transition-colors disabled:opacity-50"
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    </form>
+                </form>
             </Modal>
 
             {/* Reset Password Modal */}
@@ -598,112 +598,112 @@ export default function Index({ users }) {
                 }}
                 maxWidth="md"
             >
-                    <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-center">
-                        <h3 className="text-lg font-bold">Reset Password</h3>
-                        <button
-                            onClick={() => {
-                                setIsResetPasswordModalOpen(false);
-                                setResettingUser(null);
-                                setResetStep('send');
-                                setResetCode('');
-                                setNewPassword('');
-                                setConfirmPassword('');
-                                setResetError('');
-                            }}
-                            className="opacity-60 hover:opacity-100 transition-opacity"
-                        >
-                            ✕
-                        </button>
-                    </div>
+                <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-center">
+                    <h3 className="text-lg font-bold">Reset Password</h3>
+                    <button
+                        onClick={() => {
+                            setIsResetPasswordModalOpen(false);
+                            setResettingUser(null);
+                            setResetStep('send');
+                            setResetCode('');
+                            setNewPassword('');
+                            setConfirmPassword('');
+                            setResetError('');
+                        }}
+                        className="opacity-60 hover:opacity-100 transition-opacity"
+                    >
+                        ✕
+                    </button>
+                </div>
 
-                    {resetStep === 'send' ? (
-                        <div className="p-6 space-y-4">
-                            <p className="text-sm opacity-80">
-                                This will send a 6-digit verification code to <strong>{resettingUser?.email}</strong>. Ask the user for the code, then set the new password here.
-                            </p>
-                            {resetError && <p className="text-red-500 text-sm">{resetError}</p>}
-                            <div className="pt-2 flex justify-end space-x-3">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsResetPasswordModalOpen(false)}
-                                    className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={handleSendResetCode}
-                                    disabled={isResetting}
-                                    className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
-                                >
-                                    Send Code
-                                </button>
-                            </div>
+                {resetStep === 'send' ? (
+                    <div className="p-6 space-y-4">
+                        <p className="text-sm opacity-80">
+                            This will send a 6-digit verification code to <strong>{resettingUser?.email}</strong>. Ask the user for the code, then set the new password here.
+                        </p>
+                        {resetError && <p className="text-red-500 text-sm">{resetError}</p>}
+                        <div className="pt-2 flex justify-end space-x-3">
+                            <button
+                                type="button"
+                                onClick={() => setIsResetPasswordModalOpen(false)}
+                                className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleSendResetCode}
+                                disabled={isResetting}
+                                className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
+                            >
+                                Send Code
+                            </button>
                         </div>
-                    ) : (
-                        <form onSubmit={handleResetPasswordSubmit} className="p-6 space-y-4">
-                            <p className="text-sm opacity-80">
-                                Enter the 6-digit code sent to <strong>{resettingUser?.email}</strong>, then set the new password.
-                            </p>
-                            <div>
-                                <label className="block text-sm font-medium mb-1">Verification Code</label>
-                                <input
-                                    type="text"
-                                    maxLength={6}
-                                    placeholder="000000"
-                                    value={resetCode}
-                                    onChange={(e) => setResetCode(e.target.value)}
-                                    required
-                                    className="w-full text-center tracking-[0.5em] font-mono text-xl px-4 py-3 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-1">New Password</label>
-                                <input
-                                    type="password"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    required
-                                    minLength={8}
-                                    className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-1">Confirm Password</label>
-                                <input
-                                    type="password"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    required
-                                    minLength={8}
-                                    className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all"
-                                />
-                            </div>
-                            {resetError && <p className="text-red-500 text-sm">{resetError}</p>}
-                            <div className="pt-2 flex justify-end space-x-3">
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setResetStep('send');
-                                        setResetCode('');
-                                        setNewPassword('');
-                                        setConfirmPassword('');
-                                        setResetError('');
-                                    }}
-                                    className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                                >
-                                    Back
-                                </button>
-                                <button
-                                    type="submit"
-                                    disabled={isResetting || resetCode.length !== 6 || newPassword.length < 8 || newPassword !== confirmPassword}
-                                    className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
-                                >
-                                    Reset Password
-                                </button>
-                            </div>
-                        </form>
-                    )}
+                    </div>
+                ) : (
+                    <form onSubmit={handleResetPasswordSubmit} className="p-6 space-y-4">
+                        <p className="text-sm opacity-80">
+                            Enter the 6-digit code sent to <strong>{resettingUser?.email}</strong>, then set the new password.
+                        </p>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Verification Code</label>
+                            <input
+                                type="text"
+                                maxLength={6}
+                                placeholder="000000"
+                                value={resetCode}
+                                onChange={(e) => setResetCode(e.target.value)}
+                                required
+                                className="w-full text-center tracking-[0.5em] font-mono text-xl px-4 py-3 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">New Password</label>
+                            <input
+                                type="password"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required
+                                minLength={8}
+                                className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Confirm Password</label>
+                            <input
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                                minLength={8}
+                                className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all"
+                            />
+                        </div>
+                        {resetError && <p className="text-red-500 text-sm">{resetError}</p>}
+                        <div className="pt-2 flex justify-end space-x-3">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setResetStep('send');
+                                    setResetCode('');
+                                    setNewPassword('');
+                                    setConfirmPassword('');
+                                    setResetError('');
+                                }}
+                                className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                            >
+                                Back
+                            </button>
+                            <button
+                                type="submit"
+                                disabled={isResetting || resetCode.length !== 6 || newPassword.length < 8 || newPassword !== confirmPassword}
+                                className="px-4 py-2 rounded-xl bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium transition-colors disabled:opacity-50"
+                            >
+                                Reset Password
+                            </button>
+                        </div>
+                    </form>
+                )}
             </Modal>
         </AuthenticatedLayout>
     );

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -30,6 +31,16 @@ class User extends Authenticatable
         'email_verified_at',
         'reset_otp',
         'reset_otp_expires_at',
+        'avatar',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'avatar_url',
     ];
 
     /**
@@ -58,5 +69,17 @@ class User extends Authenticatable
     public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
+    }
+
+    /**
+     * Get the URL to the user's profile photo.
+     *
+     * @return string|null
+     */
+    public function getAvatarUrlAttribute()
+    {
+        return $this->avatar
+                    ? Storage::disk('public')->url($this->avatar)
+                    : null;
     }
 }

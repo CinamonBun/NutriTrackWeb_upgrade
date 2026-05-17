@@ -15,7 +15,7 @@ export default function AuthenticatedLayout({ showHeader = true, children }) {
 
             <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center space-y-4">
                 <div className="p-1 rounded-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] shadow-md transition-all duration-300">
-                    <Link href="setting.php" id="settings-btn"
+                    <Link href="/settings" id="settings-btn"
                         className="flex items-center justify-center p-2 rounded-full transition-colors duration-200">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                             stroke="currentColor" className="w-6 h-6">

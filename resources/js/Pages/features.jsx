@@ -42,7 +42,7 @@ export default function Features() {
                             </motion.h1>
                             <motion.p
                                 variants={fadeInUp}
-                                className="mt-4 text-lg md:text-xl opacity-60 dark:opacity-70 leading-relaxed mb-8"
+                                className="mt-4 text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-8"
                             >
                                 Everything you need to track, understand, and improve your diet. Discover tools that make healthy living effortless and enjoyable.
                             </motion.p>

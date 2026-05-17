@@ -31,6 +31,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('users', UserController::class);
@@ -54,6 +55,10 @@ Route::middleware('auth')->group(function () {
     ]);
     Route::get('ingredients-export', [\App\Http\Controllers\AdminIngredientController::class, 'export'])->name('admin.ingredients.export');
     Route::post('ingredients-import', [\App\Http\Controllers\AdminIngredientController::class, 'import'])->name('admin.ingredients.import');
+
+    Route::get('/settings', function () {
+        return Inertia::render('Admin/Settings');
+    })->name('admin.settings');
 
 });
 

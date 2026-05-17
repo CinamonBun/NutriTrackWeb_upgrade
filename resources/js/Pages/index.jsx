@@ -68,14 +68,14 @@ export default function Index() {
 
                         <motion.h1
                             variants={fadeInUp}
-                            className="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight mb-6"
+                            className="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight mb-6 text-gray-900 dark:text-gray-200"
                         >
                             Mulai <span className="gradient-text">Gaya Hidup</span> <br /> Lebih Sehat.
                         </motion.h1>
 
                         <motion.p
                             variants={fadeInUp}
-                            className="text-lg md:text-xl opacity-60 dark:opacity-70 leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0"
+                            className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0"
                         >
                             Pantau kalori, nutrisi, dan aktivitas harianmu dalam satu aplikasi cerdas. Data akurat untuk hasil yang nyata.
                         </motion.p>
@@ -211,7 +211,7 @@ export default function Index() {
                         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
                     >
                         <div className="text-center mb-6 md:mb-0">
-                            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">Why NutriTrack ?</h2>
+                            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight opacity-90">Why NutriTrack ?</h2>
                             <p className="mt-3 text-lg opacity-60 dark:opacity-70 max-w-xl mx-auto">
                                 Get expert nutritional guidance and personalized meal plans specifically for your journey.
                             </p>

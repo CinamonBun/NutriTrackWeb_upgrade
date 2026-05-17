@@ -34,13 +34,13 @@ export default function Riviews() {
                     >
                         <motion.h1
                             variants={fadeInUp}
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+                            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-gray-200"
                         >
                             Loved by <span className="text-primary">10,000+</span> Healthy People.<br />
                         </motion.h1>
                         <motion.p
                             variants={fadeInUp}
-                            className="text-lg opacity-60 dark:opacity-70 mb-8 leading-relaxed max-w-md"
+                            className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-md"
                         >
                             Baca cerita inspiratif dari pengguna yang telah berhasil mencapai target kesehatan mereka bersama NutriTrack.
                         </motion.p>
