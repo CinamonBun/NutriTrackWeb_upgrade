@@ -59,4 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Melihat insight yang dihasilkan sistem
     Route::get('/insights', [InsightController::class, 'index']);
     Route::get('/insights/{insight}', [InsightController::class, 'show']);
+    // --- Chatbot AI ---
+    // Endpoint untuk mengirim pesan ke OpenClaw
+    Route::post('/chatbot', [\App\Http\Controllers\API\ChatbotController::class, 'sendMessage']);
 });
