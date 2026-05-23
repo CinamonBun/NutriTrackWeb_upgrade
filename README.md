@@ -1,64 +1,102 @@
-<<<<<<< HEAD
-# NutriTrackWeb-
-Upgrade version from NutritrackWeb because still using native php 
-=======
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🍏 NutriTrack Backend (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+NutriTrack adalah aplikasi pemantauan gizi dan kesehatan cerdas yang dilengkapi dengan asisten AI personal. Repositori ini berisi kode *backend* (API) yang dibangun menggunakan kerangka kerja (framework) **Laravel**.
 
-## About Laravel
+Aplikasi ini menyediakan sistem autentikasi, manajemen profil antropometri pengguna (tinggi, berat, BMI), pencatatan asupan gizi, resep sehat, serta terintegrasi secara langsung dengan kecerdasan buatan untuk memberikan konsultasi diet dan gizi yang dipersonalisasi.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🌟 Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Sistem Autentikasi Modern**: Login, Register, Verifikasi Email, dan Reset Password yang aman menggunakan Laravel Sanctum.
+- **Kalkulasi Kesehatan Otomatis**: Secara otomatis menghitung BMI berdasarkan tinggi dan berat badan pengguna.
+- **Manajemen Gizi & Resep**: Pencatatan riwayat makan (Food/Meal Logs) dan database bahan makanan (Ingredients).
+- **🤖 AI Nutrition Assistant (Chatbot)**: Terintegrasi dengan **OpenClaw** & Google Gemini/Groq. AI secara otomatis membaca data profil *user* yang sedang *login* (umur, BMI, jenis kelamin) untuk memberikan rekomendasi menu makanan dan diet yang sangat akurat dan spesifik untuk setiap individu.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛠️ Teknologi yang Digunakan
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Framework**: Laravel 11.x
+- **Database**: MySQL
+- **Autentikasi API**: Laravel Sanctum
+- **AI Orchestration**: [OpenClaw](https://openclaw.ai/) (Local AI Gateway)
+- **Email/Notifikasi**: Resend (Reset Password OTP)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Panduan Instalasi (Development)
 
-### Premium Partners
+Ikuti langkah-langkah di bawah ini untuk menjalankan *backend* NutriTrack di komputer lokal Anda:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 1. Kebutuhan Sistem (Prerequisites)
+Pastikan komputer Anda sudah terinstal perangkat lunak berikut:
+- PHP >= 8.2
+- Composer
+- MySQL (XAMPP/Laragon/DBngin)
+- Node.js & NPM (untuk OpenClaw)
 
-## Contributing
+### 2. Kloning Repositori & Instalasi Dependensi
+```bash
+git clone <url-repository-anda>
+cd NutriTrackWeb_upgrade
+composer install
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Pengaturan *Environment* (.env)
+Salin file konfigurasi contoh dan sesuaikan dengan database Anda:
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+**PENTING!** Pastikan Anda membuat database baru bernama `nutritrack_upgrade` di MySQL Anda, lalu atur kredensialnya di file `.env`:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nutritrack_upgrade
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Code of Conduct
+### 4. Menjalankan Migrasi Database
+Jalankan migrasi untuk membuat seluruh tabel yang dibutuhkan (termasuk tabel `profiles` dsb):
+```bash
+php artisan migrate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. Setup AI Chatbot (OpenClaw)
+Karena asisten cerdas kita membutuhkan OpenClaw, lakukan instalasi dan konfigurasi berikut di terminal Anda:
+```bash
+npm install -g openclaw@latest
+openclaw models auth paste-token --provider google
+# (Masukkan API Key Google Gemini Anda)
+openclaw models set google/gemini-2.5-flash
+openclaw config set gateway.http.endpoints.chatCompletions.enabled true
+openclaw gateway restart
+```
+Kemudian, masukkan Token Gateway OpenClaw Anda ke bagian paling bawah file `.env` Laravel:
+```env
+OPENCLAW_API_KEY=kunci_token_gateway_openclaw_anda
+```
 
-## Security Vulnerabilities
+### 6. Jalankan Server Lokal
+Setelah semuanya siap, Anda bisa menghidupkan server Laravel:
+```bash
+php artisan serve
+```
+API sekarang bisa diakses di: `http://localhost:8000/api`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 📖 Dokumentasi Endpoint API Penting
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
->>>>>>> bc53b05 (Initial commit: Upload NutriTrackWeb upgrade)
+- `POST /api/login`: Mendapatkan Token Akses (Sanctum)
+- `POST /api/register`: Mendaftar akun baru
+- `GET /api/profile`: Mengambil data antropometri pengguna
+- `POST /api/chatbot`: (Membutuhkan Header `Authorization: Bearer <token>`). Mengirimkan pesan ke AI. AI akan merespons berdasarkan profil kesehatan user saat ini.
+
+---
+
+**Dibuat dengan ❤️ untuk Kesehatan yang Lebih Baik.**
