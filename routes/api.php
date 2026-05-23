@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\ScreeningController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -54,6 +55,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // --- Kondisi Psikologis ---
     // Mencatat mood dan stres
     Route::apiResource('moods', MoodController::class);
+    Route::apiResource('screenings', ScreeningController::class);
+    Route::get(
+        '/screenings/latest/{screeningType}',
+        [ScreeningController::class, 'latest']
+    );
 
     // --- Analisis & Output ---
     // Melihat insight yang dihasilkan sistem

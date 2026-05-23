@@ -19,8 +19,29 @@ class MealLogController extends Controller
      */
     public function index(Request $request)
     {
-        $mealLogs = MealLog::with('foodLogs')
-            ->where('user_id', $request->user()->id)
+        $query = MealLog::with([
+            'foodLogs.recipe',
+            'foodLogs.ingredient'
+        ])
+            ->where('user_id', $request->user()->id);
+
+        if ($request->filled('start_date')) {
+            $query->whereDate(
+                'created_at',
+                '>=',
+                $request->start_date
+            );
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate(
+                'created_at',
+                '<=',
+                $request->end_date
+            );
+        }
+
+        $mealLogs = $query
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -158,8 +179,8 @@ class MealLogController extends Controller
                 $recipe = Recipe::with('ingredients.ingredient')->find($request->recipe_id);
                 $totalRecipeCalories = 0;
                 foreach ($recipe->ingredients as $ri) {
-                     $ingCalories = ($ri->ingredient->calories_per_100g / 100) * $ri->quantity_gram;
-                     $totalRecipeCalories += $ingCalories;
+                    $ingCalories = ($ri->ingredient->calories_per_100g / 100) * $ri->quantity_gram;
+                    $totalRecipeCalories += $ingCalories;
                 }
                 $calories = $totalRecipeCalories * $request->quantity;
             } elseif ($request->type === 'manual') {
