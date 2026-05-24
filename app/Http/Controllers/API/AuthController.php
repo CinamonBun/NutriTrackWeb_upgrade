@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Mail\PasswordResetCodeMail;
+use App\Mail\SendOtpMail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\Registered;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -20,19 +24,39 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        DB::beginTransaction();
 
-        // Fire standard Laravel Registered event, which automatically sends verification email
-        event(new Registered($user));
+        try {
+            $otp = rand(100000, 999999);
 
-        return response()->json([
-            'message' => 'Registration successful. A verification link has been sent to your email.',
-            'user' => $user,
-        ], 201);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+
+                'otp_code' => $otp,
+                'otp_expires_at' => Carbon::now()->addMinutes(10),
+            ]);
+
+            Mail::to($user->email)->send(
+                new SendOtpMail($otp)
+            );
+
+            DB::commit();
+
+            return ApiResponse::success(
+                $user,
+                'Registrasi berhasil. Kode OTP telah dikirim.'
+            );
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            return ApiResponse::error(
+                $e->getMessage(),
+                500
+            );
+        }
     }
 
     public function resendVerification(Request $request)
@@ -44,19 +68,68 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return ApiResponse::error(null, 'User tidak ditemukan', 404);
         }
 
-        if ($user->hasVerifiedEmail()) {
-            return response()->json(['message' => 'Email already verified'], 400);
+        if ($user->email_verified_at) {
+            return ApiResponse::error(null, 'Email sudah diverifikasi', 400);
         }
 
-        // Send standard Laravel verification email
-        $user->sendEmailVerificationNotification();
+        $otp = rand(100000, 999999);
 
-        return response()->json([
-            'message' => 'Verification link resent successfully.',
+        $user->update([
+            'otp_code' => $otp,
+            'otp_expires_at' => Carbon::now()->addMinutes(10),
         ]);
+
+        Mail::to($user->email)->send(
+            new SendOtpMail($otp)
+        );
+
+        return ApiResponse::success(
+            null,
+            'Kode OTP berhasil dikirim ulang'
+        );
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return ApiResponse::error(null, 'User tidak ditemukan', 404);
+        }
+
+        if ($user->email_verified_at) {
+            return ApiResponse::error(null, 'Email sudah diverifikasi', 400);
+        }
+
+        if ($user->otp_code != $request->otp) {
+            return ApiResponse::error(null, 'Kode OTP tidak valid', 400);
+        }
+
+        if (
+            !$user->otp_expires_at ||
+            Carbon::now()->gt($user->otp_expires_at)
+        ) {
+            return ApiResponse::error(null, 'Kode OTP sudah kadaluarsa', 400);
+        }
+
+        $user->update([
+            'email_verified_at' => Carbon::now(),
+            'otp_code' => null,
+            'otp_expires_at' => null,
+        ]);
+
+        return ApiResponse::success(
+            null,
+            'Email berhasil diverifikasi'
+        );
     }
 
     public function login(Request $request)
@@ -67,42 +140,43 @@ class AuthController extends Controller
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+            return ApiResponse::error(
+                'Email atau password salah',
+                401
+            );
         }
 
         $user = Auth::user();
 
-        // Use Laravel's default email verification check
-        if (!$user->hasVerifiedEmail()) {
-            return response()->json([
-                'message' => 'Please verify your email first.'
-            ], 403);
+        if (!$user->email_verified_at) {
+            return ApiResponse::error(
+                'Email Anda belum diverifikasi.',
+                403
+            );
         }
 
         $token = $user->createToken('API Token')->plainTextToken;
+        $user['token'] = $token;
 
-        return response()->json([
-            'data' => $user,
-            'token' => $token,
-        ]);
+        return ApiResponse::success(
+            $user,
+            'Login berhasil'
+        );
     }
 
-    // USER
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        return ApiResponse::success($request->user());
     }
 
-    // LOGOUT
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Logout berhasil'
-        ]);
+        return ApiResponse::success(
+            null,
+            'Logout berhasil'
+        );
     }
 
     public function getProfile(Request $request)
@@ -112,16 +186,16 @@ class AuthController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json([
-                'message' => 'Profile not found',
-                'data' => null,
-            ], 404);
+            return ApiResponse::error(
+                'Profil tidak ditemukan',
+                404
+            );
         }
 
-        return response()->json([
-            'message' => 'Profile fetched successfully',
-            'data' => $profile,
-        ]);
+        return ApiResponse::success(
+            $profile,
+            'Profil berhasil diambil'
+        );
     }
 
     public function updateProfile(Request $request)
@@ -149,10 +223,10 @@ class AuthController extends Controller
             ])
         );
 
-        return response()->json([
-            'message' => 'Profile updated successfully',
-            'data' => $profile,
-        ]);
+        return ApiResponse::success(
+            $profile,
+            'Profil berhasil diperbarui'
+        );
     }
 
     public function forgotPassword(Request $request)
@@ -164,9 +238,10 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json([
-                'message' => 'User not found'
-            ], 404);
+            return ApiResponse::error(
+                'User tidak ditemukan',
+                404
+            );
         }
 
         $otp = rand(100000, 999999);
@@ -176,18 +251,17 @@ class AuthController extends Controller
             'reset_otp_expires_at' => Carbon::now()->addMinutes(10),
         ]);
 
-        $resend = \Resend::client(config('services.resend.key'));
+        Mail::to($user->email)->send(
+            new PasswordResetCodeMail(
+                (string) $otp,
+                $user->name
+            )
+        );
 
-        $resend->emails->send([
-            'from' => 'NutriTrack <onboarding@resend.dev>',
-            'to' => [$user->email],
-            'subject' => 'Reset Password OTP',
-            'html' => "<h1>Your Reset OTP: $otp</h1><p>Valid for 10 minutes</p>"
-        ]);
-
-        return response()->json([
-            'message' => 'Reset OTP sent to email'
-        ]);
+        return ApiResponse::success(
+            null,
+            'Kode OTP reset password telah dikirim'
+        );
     }
 
     public function verifyResetOtp(Request $request)
@@ -200,20 +274,33 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return ApiResponse::error(
+                'User tidak ditemukan',
+                404
+            );
         }
 
-        if ($user->reset_otp !== $request->otp) {
-            return response()->json(['message' => 'Invalid OTP'], 400);
+        if ($user->reset_otp != $request->otp) {
+            return ApiResponse::error(
+                'Kode OTP tidak valid',
+                400
+            );
         }
 
-        if (Carbon::now()->gt($user->reset_otp_expires_at)) {
-            return response()->json(['message' => 'OTP expired'], 400);
+        if (
+            !$user->reset_otp_expires_at ||
+            Carbon::now()->gt($user->reset_otp_expires_at)
+        ) {
+            return ApiResponse::error(
+                'Kode OTP sudah kadaluarsa',
+                400
+            );
         }
 
-        return response()->json([
-            'message' => 'OTP verified. You can reset password now.'
-        ]);
+        return ApiResponse::success(
+            null,
+            'OTP valid'
+        );
     }
 
     public function resetPassword(Request $request)
@@ -227,25 +314,39 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return ApiResponse::error(
+                'User tidak ditemukan',
+                404
+            );
         }
 
-        if ($user->reset_otp !== $request->otp) {
-            return response()->json(['message' => 'Invalid OTP'], 400);
+        if ($user->reset_otp != $request->otp) {
+            return ApiResponse::error(
+                'Kode OTP tidak valid',
+                400
+            );
         }
 
-        if (Carbon::now()->gt($user->reset_otp_expires_at)) {
-            return response()->json(['message' => 'OTP expired'], 400);
+        if (
+            !$user->reset_otp_expires_at ||
+            Carbon::now()->gt($user->reset_otp_expires_at)
+        ) {
+            return ApiResponse::error(
+                'Kode OTP sudah kadaluarsa',
+                400
+            );
         }
 
         $user->update([
             'password' => Hash::make($request->password),
+
             'reset_otp' => null,
             'reset_otp_expires_at' => null,
         ]);
 
-        return response()->json([
-            'message' => 'Password reset successfully'
-        ]);
+        return ApiResponse::success(
+            null,
+            'Password berhasil direset'
+        );
     }
 }

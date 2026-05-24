@@ -32,6 +32,10 @@ class PasswordResetCodeMail extends Mailable
     {
         return new Content(
             view: 'emails.password-reset-code',
+            with: [
+                'code' => $this->code,
+                'requestedBy' => $this->requestedBy,
+            ],
         );
     }
 
@@ -40,4 +44,3 @@ class PasswordResetCodeMail extends Mailable
         return [];
     }
 }
-

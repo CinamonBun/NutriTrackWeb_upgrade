@@ -19,7 +19,6 @@ class IngredientSeeder extends Seeder
 
                 'gout_level' => 'medium',
                 'verified_by_expert' => true,
-                'source' => 'Kemenkes RI',
 
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -33,7 +32,6 @@ class IngredientSeeder extends Seeder
 
                 'gout_level' => 'low',
                 'verified_by_expert' => true,
-                'source' => 'Kemenkes RI',
 
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -47,7 +45,6 @@ class IngredientSeeder extends Seeder
 
                 'gout_level' => 'high',
                 'verified_by_expert' => true,
-                'source' => 'Kemenkes RI',
 
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -61,7 +58,6 @@ class IngredientSeeder extends Seeder
 
                 'gout_level' => 'medium',
                 'verified_by_expert' => true,
-                'source' => 'USDA FoodData Central',
 
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -75,7 +71,6 @@ class IngredientSeeder extends Seeder
 
                 'gout_level' => 'high',
                 'verified_by_expert' => true,
-                'source' => 'Kemenkes RI',
 
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -89,7 +84,6 @@ class IngredientSeeder extends Seeder
 
                 'gout_level' => 'low',
                 'verified_by_expert' => true,
-                'source' => 'USDA FoodData Central',
 
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -103,7 +97,6 @@ class IngredientSeeder extends Seeder
 
                 'gout_level' => 'low',
                 'verified_by_expert' => true,
-                'source' => 'Kemenkes RI',
 
                 'created_at' => now(),
                 'updated_at' => now(),
