@@ -22,6 +22,16 @@ Route::get('/riviews', function () {
     return Inertia::render('riviews');
 });
 
+use App\Http\Controllers\CommunityPostController;
+use App\Http\Controllers\CommunityInteractionController;
+use App\Http\Controllers\Admin\CommunityModerationController;
+
+Route::get('/community', [CommunityPostController::class, 'index'])->name('community.index');
+Route::post('/community/posts', [CommunityPostController::class, 'store'])->middleware('auth')->name('community.posts.store');
+Route::post('/community/posts/{post}/like', [CommunityInteractionController::class, 'toggleLike'])->middleware('auth')->name('community.posts.like');
+Route::post('/community/posts/{post}/save', [CommunityInteractionController::class, 'toggleSave'])->middleware('auth')->name('community.posts.save');
+Route::post('/community/posts/{post}/comment', [CommunityInteractionController::class, 'storeComment'])->middleware('auth')->name('community.posts.comment');
+Route::post('/community/report', [CommunityInteractionController::class, 'storeReport'])->middleware('auth')->name('community.report');
 
 
 use App\Http\Controllers\DashboardController;
@@ -59,6 +69,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', function () {
         return Inertia::render('Admin/Settings');
     })->name('admin.settings');
+
+    Route::get('/admin/community', [CommunityModerationController::class, 'index'])->name('admin.community.index');
+    Route::patch('/admin/community/posts/{post}', [CommunityModerationController::class, 'updatePost'])->name('admin.community.posts.update');
+    Route::delete('/admin/community/posts/{post}', [CommunityModerationController::class, 'destroyPost'])->name('admin.community.posts.destroy');
+    Route::patch('/admin/community/comments/{comment}', [CommunityModerationController::class, 'updateComment'])->name('admin.community.comments.update');
+    Route::delete('/admin/community/comments/{comment}', [CommunityModerationController::class, 'destroyComment'])->name('admin.community.comments.destroy');
+    Route::patch('/admin/community/reports/{report}', [CommunityModerationController::class, 'resolveReport'])->name('admin.community.reports.resolve');
+    Route::post('/admin/community/guidelines', [CommunityModerationController::class, 'storeGuideline'])->name('admin.community.guidelines.store');
+    Route::patch('/admin/community/guidelines/{guideline}', [CommunityModerationController::class, 'updateGuideline'])->name('admin.community.guidelines.update');
+    Route::delete('/admin/community/guidelines/{guideline}', [CommunityModerationController::class, 'destroyGuideline'])->name('admin.community.guidelines.destroy');
 
 });
 

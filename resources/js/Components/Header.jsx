@@ -45,6 +45,7 @@ export default function Header() {
                         <li><Link href="/about" className="transform transition-colors hover:text-[#3dccc7]">About Us</Link></li>
                         <li><Link href="/features" className="transform transition-colors hover:text-[#3dccc7]">Features</Link></li>
                         <li><Link href="/riviews" className="transform transition-colors hover:text-[#3dccc7]">Riviews</Link></li>
+                        <li><Link href="/community" className="transform transition-colors hover:text-[#3dccc7]">Community</Link></li>
                         <li><Link href="#" className="transform transition-colors hover:text-[#3dccc7]">Download</Link></li>
                     </ul>
                     <div className="hidden md:flex items-center space-x-3">
@@ -79,6 +80,7 @@ export default function Header() {
                             <Link href="/about" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">About Us</Link>
                             <Link href="/features" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Features</Link>
                             <Link href="/riviews" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Riviews</Link>
+                            <Link href="/community" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Community</Link>
                             <Link href="/" className="block text-base font-medium transition-colors duration-200 hover:text-[#3dccc7]">Download</Link>
                         </div>
                         <div className="flex flex-col gap-3 py-3 border-t border-neutral-200 dark:border-neutral-700">
