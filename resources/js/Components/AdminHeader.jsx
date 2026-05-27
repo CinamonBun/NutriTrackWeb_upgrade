@@ -54,6 +54,7 @@ export default function AdminHeader() {
                         <li><Link href="/seasons" className="transform transition-colors hover:text-[#3dccc7]">Seasons</Link></li>
                         <li><Link href="/meals" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
                         <li><Link href="/ingredients" className="transform transition-colors hover:text-[#3dccc7]">Ingredients</Link></li>
+                        <li><Link href="/admin/community" className="transform transition-colors hover:text-[#3dccc7]">Community</Link></li>
                         <li><Link href="/insights" className="transform transition-colors hover:text-[#3dccc7]">Insights</Link></li>
                         <li><Link href="/settings" className="transform transition-colors hover:text-[#3dccc7]">Settings</Link></li>
                     </ul>
@@ -77,6 +78,7 @@ export default function AdminHeader() {
                             <li><Link href="/seasons" className="transform transition-colors hover:text-[#3dccc7]">Seasons</Link></li>
                             <li><Link href="/meals" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
                             <li><Link href="/ingredients" className="transform transition-colors hover:text-[#3dccc7]">Ingredients</Link></li>
+                            <li><Link href="/admin/community" className="transform transition-colors hover:text-[#3dccc7]">Community</Link></li>
                             <li><Link href="/insights" className="transform transition-colors hover:text-[#3dccc7]">Insights</Link></li>
                             <li><Link href="/settings" className="transform transition-colors hover:text-[#3dccc7]">Settings</Link></li>
                         </div>
