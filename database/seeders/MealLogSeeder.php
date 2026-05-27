@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\FoodLog;
 use Illuminate\Database\Seeder;
 use App\Models\MealLog;
 use App\Models\Recipe;
@@ -45,15 +46,26 @@ class MealLogSeeder extends Seeder
                     'updated_at' => $date,
                 ]);
 
-                DB::table('food_logs')->insert([
-                    'meal_log_id' => $mealLog->id,
-                    'type' => 'recipe',
-                    'recipe_id' => $recipe->id,
-                    'ingredient_id' => null,
-                    'name_manual' => null,
-                    'calories_manual' => null,
-                    'quantity' => rand(1, 3),
-                ]);
+                $foodCount = rand(2, 4);
+
+                $usedTypes = [];
+
+                for ($f = 0; $f < $foodCount; $f++) {
+
+                    // hindari spam type yang sama
+                    $type = fake()->randomElement(['ingredient', 'recipe']);
+
+                    if (count($usedTypes) >= 2 && in_array($type, $usedTypes)) {
+                        continue;
+                    }
+
+                    $usedTypes[] = $type;
+
+                    FoodLog::factory()->create([
+                        'meal_log_id' => $mealLog->id,
+                        'type' => $type,
+                    ]);
+                }
             }
         }
     }

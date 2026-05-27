@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-
+use App\Helpers\ApiResponse;
 use App\Models\MealLog;
 use App\Models\FoodLog;
 use App\Models\Ingredient;
@@ -14,72 +14,149 @@ use Illuminate\Support\Facades\DB;
 
 class MealLogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $query = MealLog::with([
             'foodLogs.recipe',
             'foodLogs.ingredient'
-        ])
-            ->where('user_id', $request->user()->id);
+        ])->where('user_id', $request->user()->id);
 
         if ($request->filled('start_date')) {
-            $query->whereDate(
-                'created_at',
-                '>=',
-                $request->start_date
-            );
+            $query->whereDate('created_at', '>=', $request->start_date);
         }
 
         if ($request->filled('end_date')) {
-            $query->whereDate(
-                'created_at',
-                '<=',
-                $request->end_date
-            );
+            $query->whereDate('created_at', '<=', $request->end_date);
         }
 
-        $mealLogs = $query
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $mealLogs = $query->orderBy('created_at', 'desc')->get();
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $mealLogs
-        ]);
+        return ApiResponse::success($mealLogs);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'meal_type' => 'required|string|max:255',
+            'meal_type' => 'nullable|string|max:255',
+
+            'foods' => 'required|array|min:1',
+            'foods.*.type' => 'required|in:ingredient,recipe,manual',
+
+            'foods.*.ingredient_id' => 'required_if:foods.*.type,ingredient|exists:ingredients,id',
+            'foods.*.recipe_id' => 'required_if:foods.*.type,recipe|exists:recipes,id',
+
+            'foods.*.quantity' => 'required|numeric|min:1',
+
+            'foods.*.name_manual' => 'required_if:foods.*.type,manual|string',
+            'foods.*.calories' => 'required_if:foods.*.type,manual|numeric|min:0',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
+            return ApiResponse::error(
+                $validator->errors(),
+                'Validation error',
+                422
+            );
         }
 
-        $mealLog = MealLog::create([
-            'user_id' => $request->user()->id,
-            'meal_type' => $request->meal_type,
-            'total_calories' => 0,
-        ]);
+        return DB::transaction(function () use ($request) {
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Meal log created successfully',
-            'data' => $mealLog
-        ], 201);
+            // 🔥 AUTO MEAL TYPE
+            $mealType = $request->meal_type ?? $this->getMealTypeFromTime();
+
+            if (!in_array($mealType, ['breakfast', 'lunch', 'dinner'])) {
+                $mealType = $this->getMealTypeFromTime();
+            }
+
+            $mealLog = MealLog::where('user_id', $request->user()->id)
+                ->where('meal_type', $mealType)
+                ->whereDate('created_at', now()->toDateString())
+                ->first();
+
+            if (!$mealLog) {
+                $mealLog = MealLog::create([
+                    'user_id' => $request->user()->id,
+                    'meal_type' => $mealType,
+                    'total_calories' => 0,
+                ]);
+            }
+
+            $totalCalories = 0;
+
+            foreach ($request->foods as $food) {
+
+                $calories = 0;
+                $protein = 0;
+                $fat = 0;
+                $carbohydrate = 0;
+
+                // ingredient
+                if ($food['type'] === 'ingredient') {
+
+                    $ingredient = Ingredient::findOrFail($food['ingredient_id']);
+                    $factor = $food['quantity'] / 100;
+
+                    $calories = $ingredient->calories_per_100g * $factor;
+                    $protein = $ingredient->protein * $factor;
+                    $fat = $ingredient->fat * $factor;
+                    $carbohydrate = $ingredient->carbs * $factor;
+                }
+
+                // recipe
+                elseif ($food['type'] === 'recipe') {
+
+                    $recipe = Recipe::with('ingredients.ingredient')
+                        ->findOrFail($food['recipe_id']);
+
+                    foreach ($recipe->ingredients as $ri) {
+                        $factor = $ri->quantity_gram / 100;
+
+                        $calories += $ri->ingredient->calories_per_100g * $factor;
+                        $protein += $ri->ingredient->protein * $factor;
+                        $fat += $ri->ingredient->fat * $factor;
+                        $carbohydrate += $ri->ingredient->carbs * $factor;
+                    }
+
+                    $calories *= $food['quantity'];
+                    $protein *= $food['quantity'];
+                    $fat *= $food['quantity'];
+                    $carbohydrate *= $food['quantity'];
+                }
+
+                // manual
+                else {
+                    $calories = $food['calories'] * $food['quantity'];
+                }
+
+                $totalCalories += $calories;
+
+                FoodLog::create([
+                    'meal_log_id' => $mealLog->id,
+                    'type' => $food['type'],
+
+                    'ingredient_id' => $food['type'] === 'ingredient' ? $food['ingredient_id'] : null,
+                    'recipe_id' => $food['type'] === 'recipe' ? $food['recipe_id'] : null,
+                    'name_manual' => $food['type'] === 'manual' ? $food['name_manual'] : null,
+
+                    'calories' => $calories,
+                    'protein' => $protein,
+                    'fat' => $fat,
+                    'carbohydrate' => $carbohydrate,
+
+                    'quantity' => $food['quantity'],
+                ]);
+            }
+
+            $mealLog->increment('total_calories', $totalCalories);
+
+            return ApiResponse::success(
+                $mealLog->fresh()->load('foodLogs'),
+                'Meal log saved successfully',
+                201
+            );
+        });
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request, string $id)
     {
         $mealLog = MealLog::with(['foodLogs.ingredient', 'foodLogs.recipe'])
@@ -87,24 +164,18 @@ class MealLogController extends Controller
             ->find($id);
 
         if (!$mealLog) {
-            return response()->json(['status' => 'error', 'message' => 'Meal log not found'], 404);
+            return ApiResponse::error(null, 'Meal log not found', 404);
         }
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $mealLog
-        ]);
+        return ApiResponse::success($mealLog);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $mealLog = MealLog::where('user_id', $request->user()->id)->find($id);
 
         if (!$mealLog) {
-            return response()->json(['status' => 'error', 'message' => 'Meal log not found'], 404);
+            return ApiResponse::error(null, 'Meal log not found', 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -112,99 +183,37 @@ class MealLogController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
+            return ApiResponse::error($validator->errors(), 'Validation error', 422);
         }
 
         $mealLog->update([
             'meal_type' => $request->meal_type
         ]);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Meal log updated successfully',
-            'data' => $mealLog
-        ]);
+        return ApiResponse::success($mealLog, 'Meal log updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, string $id)
     {
         $mealLog = MealLog::where('user_id', $request->user()->id)->find($id);
 
         if (!$mealLog) {
-            return response()->json(['status' => 'error', 'message' => 'Meal log not found'], 404);
+            return ApiResponse::error(null, 'Meal log not found', 404);
         }
 
         $mealLog->delete();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Meal log deleted successfully'
-        ], 204);
+        return ApiResponse::success(null, 'Meal log deleted successfully', 204);
     }
 
-    /**
-     * Add food to a meal log.
-     */
-    public function addFood(Request $request, string $mealLogId)
+    private function getMealTypeFromTime(): string
     {
-        $mealLog = MealLog::where('user_id', $request->user()->id)->find($mealLogId);
+        $hour = now()->hour;
 
-        if (!$mealLog) {
-            return response()->json(['status' => 'error', 'message' => 'Meal log not found'], 404);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'type' => 'required|in:ingredient,recipe,manual',
-            'ingredient_id' => 'required_if:type,ingredient|exists:ingredients,id',
-            'recipe_id' => 'required_if:type,recipe|exists:recipes,id',
-            'name_manual' => 'required_if:type,manual|string',
-            'calories_manual' => 'required_if:type,manual|numeric|min:0',
-            'quantity' => 'required|numeric|min:1',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
-        }
-
-        return DB::transaction(function () use ($request, $mealLog) {
-            $calories = 0;
-
-            if ($request->type === 'ingredient') {
-                $ingredient = Ingredient::find($request->ingredient_id);
-                $calories = ($ingredient->calories_per_100g / 100) * $request->quantity;
-            } elseif ($request->type === 'recipe') {
-                $recipe = Recipe::with('ingredients.ingredient')->find($request->recipe_id);
-                $totalRecipeCalories = 0;
-                foreach ($recipe->ingredients as $ri) {
-                    $ingCalories = ($ri->ingredient->calories_per_100g / 100) * $ri->quantity_gram;
-                    $totalRecipeCalories += $ingCalories;
-                }
-                $calories = $totalRecipeCalories * $request->quantity;
-            } elseif ($request->type === 'manual') {
-                $calories = $request->calories_manual * $request->quantity;
-            }
-
-            $foodLog = FoodLog::create([
-                'meal_log_id' => $mealLog->id,
-                'type' => $request->type,
-                'ingredient_id' => $request->type === 'ingredient' ? $request->ingredient_id : null,
-                'recipe_id' => $request->type === 'recipe' ? $request->recipe_id : null,
-                'name_manual' => $request->type === 'manual' ? $request->name_manual : null,
-                'calories_manual' => $request->type === 'manual' ? $request->calories_manual : null,
-                'quantity' => $request->quantity
-            ]);
-
-            $mealLog->increment('total_calories', $calories);
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Food added successfully',
-                'data' => $foodLog,
-                'total_calories' => $mealLog->fresh()->total_calories
-            ], 201);
-        });
+        return match (true) {
+            $hour >= 5 && $hour < 11 => 'breakfast',
+            $hour >= 11 && $hour < 16 => 'lunch',
+            default => 'dinner',
+        };
     }
 }

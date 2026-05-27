@@ -2,93 +2,125 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
-
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): Response
+    public function getProfile(Request $request)
     {
-        return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
-        ]);
-    }
+        $user = $request->user();
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+        $profile = $user->profile;
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if (!$profile) {
+            return ApiResponse::error(
+                null,
+                'Profil tidak ditemukan',
+                404
+            );
         }
 
-        $request->user()->save();
-
-        return Redirect::back();
+        return ApiResponse::success(
+            $profile,
+            'Profil berhasil diambil'
+        );
     }
 
-    /**
-     * Update the user's profile avatar.
-     */
-    public function updateAvatar(Request $request): RedirectResponse
+    public function updateProfile(Request $request)
     {
         $request->validate([
-            'avatar' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+
+            // anthropometry
+            'height' => 'required|numeric|min:0',
+            'weight' => 'required|numeric|min:0',
+
+            'waist_circumference' =>
+            'nullable|numeric|min:0',
+
+            'hip_circumference' =>
+            'nullable|numeric|min:0',
+
+            // demographics
+            'gender' => 'required|in:L,P',
+            'age' => 'required|integer|min:0',
+
+            // activity
+            'activity_level' =>
+            'nullable|in:sedentary,light,moderate,active,very_active',
+
+            // goal
+            'goal' =>
+            'nullable|in:cutting,maintain,bulking',
         ]);
 
         $user = $request->user();
 
-        if ($request->hasFile('avatar')) {
-            // Delete old avatar if it exists
-            if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
-            }
+        $activityLevel =
+            $request->activity_level ?? 'moderate';
 
-            // Store new avatar
-            $path = $request->file('avatar')->store('avatars', 'public');
+        $goal =
+            $request->goal ?? 'maintain';
 
-            // Update user record
-            $user->avatar = $path;
-            $user->save();
-        }
+        // save/update profile
+        $profile = $user->profile()->updateOrCreate(
+            [
+                'user_id' => $user->id,
+            ],
+            [
+                'height' => $request->height,
+                'weight' => $request->weight,
 
-        return Redirect::back()->with('status', 'avatar-updated');
-    }
+                'waist_circumference' =>
+                $request->waist_circumference,
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'password' => ['required', 'current_password'],
+                'hip_circumference' =>
+                $request->hip_circumference,
+
+                'gender' => $request->gender,
+                'age' => $request->age,
+
+                'activity_level' => $activityLevel,
+                'goal' => $goal,
+            ]
+        );
+
+        /**
+         * Calculated values
+         */
+        $targetCalories =
+            $profile->calculateTargetCalories($goal);
+
+        /**
+         * Macro distribution
+         *
+         * Protein = 25%
+         * Fat     = 25%
+         * Carbs   = 50%
+         */
+
+        $proteinTarget =
+            round(($targetCalories * 0.25) / 4, 2);
+
+        $fatTarget =
+            round(($targetCalories * 0.25) / 9, 2);
+
+        $carbsTarget =
+            round(($targetCalories * 0.50) / 4, 2);
+
+        // update nutrition targets
+        $profile->update([
+            'target_calories' => $targetCalories,
+
+            'protein_target' => $proteinTarget,
+            'fat_target' => $fatTarget,
+            'carbs_target' => $carbsTarget,
         ]);
 
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return ApiResponse::success(
+            $profile->fresh(),
+            'Profile updated successfully'
+        );
     }
 }
