@@ -14,33 +14,28 @@ class FoodLogFactory extends Factory
 
     public function definition(): array
     {
-        $type = $this->faker->randomElement([
-            'ingredient',
-            'recipe',
-            'manual'
-        ]);
+        $type = $this->faker->randomElement(['ingredient', 'recipe']);
 
         return [
-            'meal_log_id' => MealLog::factory(),
+            'meal_log_id' => null,
             'type' => $type,
 
             'ingredient_id' => $type === 'ingredient'
-                ? Ingredient::factory()
+                ? Ingredient::inRandomOrder()->first()?->id
                 : null,
 
             'recipe_id' => $type === 'recipe'
-                ? Recipe::factory()
+                ? Recipe::inRandomOrder()->first()?->id
                 : null,
 
-            'name_manual' => $type === 'manual'
-                ? $this->faker->words(2, true)
-                : null,
+            'name_manual' => null,
 
-            'calories_manual' => $type === 'manual'
-                ? $this->faker->numberBetween(50, 700)
-                : null,
+            'calories' => $this->faker->numberBetween(50, 700),
+            'protein' => $this->faker->randomFloat(1, 1, 30),
+            'fat' => $this->faker->randomFloat(1, 1, 20),
+            'carbohydrate' => $this->faker->randomFloat(1, 5, 100),
 
-            'quantity' => $this->faker->randomFloat(2, 1, 500),
+            'quantity' => $this->faker->randomFloat(2, 1, 3),
         ];
     }
 }

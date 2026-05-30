@@ -13,6 +13,7 @@ use App\Http\Controllers\API\IngredientController;
 use App\Http\Controllers\API\InsightController;
 use App\Http\Controllers\API\RecipeController;
 use App\Http\Controllers\API\MealLogController;
+use App\Http\Controllers\API\ProfileController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/email/resend', [AuthController::class, 'resendVerification']);
@@ -29,9 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::get('/profile', [AuthController::class, 'getProfile']);
+    Route::get('/profile', [ProfileController::class, 'getProfile']);
 
-    Route::post('/profile', [AuthController::class, 'updateProfile']);
+    Route::post('/profile', [ProfileController::class, 'updateProfile']);
 });
 
 /*

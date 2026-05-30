@@ -38,7 +38,7 @@ class FoodLogController extends Controller
                 }
                 $caloriesToSubtract = $totalRecipeCalories * $foodLog->quantity;
             } elseif ($foodLog->type === 'manual') {
-                $caloriesToSubtract = $foodLog->calories_manual * $foodLog->quantity;
+                $caloriesToSubtract = $foodLog->calories * $foodLog->quantity;
             }
 
             // Decrement meal log calories

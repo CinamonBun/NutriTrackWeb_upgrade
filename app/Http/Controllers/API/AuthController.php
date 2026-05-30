@@ -179,56 +179,6 @@ class AuthController extends Controller
         );
     }
 
-    public function getProfile(Request $request)
-    {
-        $user = $request->user();
-
-        $profile = $user->profile;
-
-        if (!$profile) {
-            return ApiResponse::error(
-                'Profil tidak ditemukan',
-                404
-            );
-        }
-
-        return ApiResponse::success(
-            $profile,
-            'Profil berhasil diambil'
-        );
-    }
-
-    public function updateProfile(Request $request)
-    {
-        $request->validate([
-            'tinggi_badan' => 'nullable|numeric|min:0',
-            'berat_badan' => 'nullable|numeric|min:0',
-            'lingkar_pinggang' => 'nullable|numeric|min:0',
-            'lingkar_pinggul' => 'nullable|numeric|min:0',
-            'jenis_kelamin' => 'nullable|in:L,P',
-            'usia' => 'nullable|integer|min:0',
-        ]);
-
-        $user = $request->user();
-
-        $profile = $user->profile()->updateOrCreate(
-            ['user_id' => $user->id],
-            $request->only([
-                'tinggi_badan',
-                'berat_badan',
-                'lingkar_pinggang',
-                'lingkar_pinggul',
-                'jenis_kelamin',
-                'usia',
-            ])
-        );
-
-        return ApiResponse::success(
-            $profile,
-            'Profil berhasil diperbarui'
-        );
-    }
-
     public function forgotPassword(Request $request)
     {
         $request->validate([
