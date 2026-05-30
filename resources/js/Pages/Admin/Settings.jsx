@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage, useForm, router } from '@inertiajs/react';
 import { useTheme } from '@/Contexts/ThemeContext';
+import CustomSelect from '@/Components/CustomSelect';
 import {
     User,
     Lock,
@@ -12,7 +13,6 @@ import {
     Save,
     ChevronRight,
     Smartphone,
-    ChevronDown
 } from 'lucide-react';
 
 const SettingSection = ({ title, description, icon: Icon, children }) => (
@@ -48,8 +48,6 @@ export default function Settings() {
     const { auth } = usePage().props;
     const [activeTab, setActiveTab] = useState('profile');
     const [language, setLanguage] = useState('English (United States)');
-    const [isLangOpen, setIsLangOpen] = useState(false);
-    const languages = ['English (United States)', 'Bahasa Indonesia'];
 
     const profileForm = useForm({
         name: auth.user.name,
@@ -360,39 +358,17 @@ export default function Settings() {
                                         icon={Globe}
                                     >
                                         <div className="space-y-4">
-                                            <div className="space-y-2 relative">
+                                            <div className="space-y-2">
                                                 <label className="text-sm font-medium opacity-80">Default Language</label>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setIsLangOpen(!isLangOpen)}
-                                                    className="w-full sm:w-64 px-4 py-2.5 bg-white dark:bg-[#262626] hover:bg-neutral-50 dark:hover:bg-[#333333] border border-neutral-200 dark:border-[#404040] rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all flex justify-between items-center shadow-sm"
-                                                >
-                                                    <span className="font-medium text-sm">{language}</span>
-                                                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isLangOpen ? 'rotate-180' : ''}`} />
-                                                </button>
-
-                                                {isLangOpen && (
-                                                    <div className="absolute z-50 top-[calc(100%+0.5rem)] mt-0 w-full sm:w-64 bg-white dark:bg-[#1f1f1f] border border-neutral-200 dark:border-[#404040] rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] overflow-hidden fade-in">
-                                                        <div className="p-1.5 flex flex-col gap-1">
-                                                            {languages.map((lang) => (
-                                                                <button
-                                                                    key={lang}
-                                                                    type="button"
-                                                                    onClick={() => {
-                                                                        setLanguage(lang);
-                                                                        setIsLangOpen(false);
-                                                                    }}
-                                                                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${language === lang
-                                                                        ? 'bg-neutral-100 dark:bg-[#333333] font-medium'
-                                                                        : 'hover:bg-neutral-50 dark:hover:bg-[#2a2a2a]'
-                                                                        }`}
-                                                                >
-                                                                    {lang}
-                                                                </button>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                )}
+                                                <CustomSelect
+                                                    value={language}
+                                                    onChange={setLanguage}
+                                                    options={[
+                                                        { value: 'English (United States)', label: 'English (United States)' },
+                                                        { value: 'Bahasa Indonesia', label: 'Bahasa Indonesia' },
+                                                    ]}
+                                                    dropdownClassName="w-full sm:w-64"
+                                                />
                                             </div>
                                         </div>
                                     </SettingSection>

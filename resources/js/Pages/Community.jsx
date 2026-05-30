@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Head, router, usePage } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
+import CustomSelect from '@/Components/CustomSelect';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // ─────────────────────────────────────────────
@@ -402,16 +403,22 @@ export default function Community({ posts = [], activeTag = null, searchQuery = 
                                         readOnly={!auth.user}
                                     />
                                     <div className="flex items-center justify-between">
-                                        <select
+                                        <CustomSelect
                                             value={tag}
-                                            onChange={e => setTag(e.target.value)}
-                                            className="bg-gray-50 dark:bg-[#1a1a1a] border border-[#cccccc] dark:border-[#404040] rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
-                                        >
-                                            <option value="">Pilih Topik...</option>
-                                            {TAGS.filter(t => t.value).map(t => (
-                                                <option key={t.value} value={t.value}>#{t.label}</option>
-                                            ))}
-                                        </select>
+                                            onChange={(val) => setTag(val)}
+                                            options={[
+                                                { value: '', label: 'Tanpa Topik', icon: 'fas fa-hashtag', iconColor: 'opacity-40' },
+                                                ...TAGS.filter(t => t.value).map(t => ({
+                                                    value: t.value,
+                                                    label: t.label,
+                                                    icon: t.icon,
+                                                    iconColor: t.color
+                                                }))
+                                            ]}
+                                            placeholder="Pilih Topik..."
+                                            className="!px-3 !py-1.5 !text-xs bg-gray-50 dark:bg-[#1a1a1a]"
+                                            dropdownClassName="min-w-[150px]"
+                                        />
                                         <button
                                             onClick={handleSubmit}
                                             className="bg-primary text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-[0_4px_15px_rgba(61,204,199,0.3)] transition-all duration-300"
@@ -627,15 +634,19 @@ export default function Community({ posts = [], activeTag = null, searchQuery = 
                         <div className="space-y-4">
                             <div>
                                 <label className="text-sm font-medium opacity-80">Alasan</label>
-                                <select
-                                    className="mt-1 w-full rounded-xl border border-[#cccccc] dark:border-[#404040] bg-transparent px-4 py-2.5 text-sm"
+                                <CustomSelect
                                     value={reportReason}
-                                    onChange={(e) => setReportReason(e.target.value)}
-                                >
-                                    {REPORT_REASONS.map((r) => (
-                                        <option key={r.value} value={r.value}>{r.label}</option>
-                                    ))}
-                                </select>
+                                    onChange={setReportReason}
+                                    options={[
+                                        { value: 'spam',        label: 'Spam' },
+                                        { value: 'harassment',  label: 'Pelecehan / Bullying' },
+                                        { value: 'misinformation', label: 'Informasi Menyesatkan' },
+                                        { value: 'inappropriate', label: 'Konten Tidak Pantas' },
+                                        { value: 'other',       label: 'Lainnya' },
+                                    ]}
+                                    className="mt-1"
+                                    dropdownClassName="w-full"
+                                />
                             </div>
                             <div>
                                 <label className="text-sm font-medium opacity-80">Detail (opsional)</label>

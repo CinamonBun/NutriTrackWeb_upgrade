@@ -8,6 +8,7 @@ import DangerButton from '@/Components/DangerButton';
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
+import CustomSelect from '@/Components/CustomSelect';
 
 const STATUS_STYLES = {
     active: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
@@ -356,15 +357,17 @@ export default function Index({ posts, reports, guidelines, stats, reasonLabels 
                     <div className="space-y-4">
                         <div>
                             <InputLabel value="Status" className="text-black dark:text-white" />
-                            <select
-                                className="mt-1 w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition duration-200 text-black dark:text-white"
+                            <CustomSelect
                                 value={postForm.data.status}
-                                onChange={(e) => postForm.setData('status', e.target.value)}
-                            >
-                                <option value="active">Aktif (tampil)</option>
-                                <option value="hidden">Sembunyikan</option>
-                                <option value="removed">Tandai dihapus</option>
-                            </select>
+                                onChange={(val) => postForm.setData('status', val)}
+                                options={[
+                                    { value: 'active', label: 'Aktif (tampil)' },
+                                    { value: 'hidden', label: 'Sembunyikan' },
+                                    { value: 'removed', label: 'Tandai dihapus' }
+                                ]}
+                                className="mt-1"
+                                dropdownClassName="w-full"
+                            />
                             <InputError message={postForm.errors.status} className="mt-1" />
                         </div>
                         <div>
@@ -394,14 +397,16 @@ export default function Index({ posts, reports, guidelines, stats, reasonLabels 
                     <div className="space-y-4">
                         <div>
                             <InputLabel value="Keputusan" className="text-black dark:text-white" />
-                            <select
-                                className="mt-1 w-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition duration-200 text-black dark:text-white"
+                            <CustomSelect
                                 value={reportForm.data.status}
-                                onChange={(e) => reportForm.setData('status', e.target.value)}
-                            >
-                                <option value="reviewed">Ditinjau & ditindak</option>
-                                <option value="dismissed">Abaikan laporan</option>
-                            </select>
+                                onChange={(val) => reportForm.setData('status', val)}
+                                options={[
+                                    { value: 'reviewed', label: 'Ditinjau & ditindak' },
+                                    { value: 'dismissed', label: 'Abaikan laporan' }
+                                ]}
+                                className="mt-1"
+                                dropdownClassName="w-full"
+                            />
                         </div>
                         <div>
                             <InputLabel value="Catatan admin" className="text-black dark:text-white" />

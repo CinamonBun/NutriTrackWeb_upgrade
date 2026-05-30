@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import CustomSelect from '@/Components/CustomSelect';
 import { Link } from '@inertiajs/react';
 import { useTheme } from '@/Contexts/ThemeContext';
 
 export default function Footer() {
     const { theme, changeTheme } = useTheme();
-    const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+
     const [language, setLanguage] = useState('Language');
 
     return (
@@ -65,57 +66,17 @@ export default function Footer() {
                     </div>
 
                     <div className="space-y-4">
-                        <div className="relative inline-block text-left w-full">
-                            <div
-                                id="dropdownMenu"
-                                className={`${isLanguageOpen ? 'block' : 'hidden'} absolute bottom-full mb-2 left-0 w-full rounded-xl shadow-2xl focus:outline-none fade-in overflow-hidden bg-[#ffffff] text-black/70 dark:bg-[#2a2a2a] dark:text-white/70 border border-[#cccccc] dark:border-[#404040]`}
-                                role="menu"
-                                aria-orientation="vertical"
-                                aria-labelledby="dropdownButton"
-                            >
-                                <div className="py-1" role="none">
-                                    <a
-                                        href="#"
-                                        onClick={(e) => { e.preventDefault(); setLanguage('English'); setIsLanguageOpen(false); }}
-                                        className={`flex items-center px-4 py-2.5 text-sm font-medium transition-colors duration-150 ${language === 'English' ? 'bg-black/5 dark:bg-white/10' : 'hover:bg-black/5 dark:hover:bg-white/10'}`}
-                                        role="menuitem"
-                                    >
-                                        English
-                                    </a>
-                                    <a
-                                        href="#"
-                                        onClick={(e) => { e.preventDefault(); setLanguage('Bahasa Indonesia'); setIsLanguageOpen(false); }}
-                                        className={`flex items-center px-4 py-2.5 text-sm font-medium transition-colors duration-150 ${language === 'Bahasa Indonesia' ? 'bg-black/5 dark:bg-white/10' : 'hover:bg-black/5 dark:hover:bg-white/10'}`}
-                                        role="menuitem"
-                                    >
-                                        Bahasa Indonesia
-                                    </a>
-                                </div>
-                            </div>
-
-                            <button
-                                id="dropdownButton"
-                                type="button"
-                                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                                className="inline-flex items-center justify-between w-full rounded-xl px-4 py-2.5 text-sm font-bold focus:outline-none bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] text-black/60 dark:text-white/60"
-                                aria-expanded={isLanguageOpen}
-                                aria-haspopup="true"
-                            >
-                                {language}
-                                <svg
-                                    className={`ml-2 h-4 w-4 transition-transform duration-200 ${isLanguageOpen ? 'rotate-0' : 'rotate-180'}`}
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                >
-                                    <path fillRule="evenodd"
-                                        d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                        clipRule="evenodd" />
-                                </svg>
-                            </button>
-                        </div>
-
+                        <CustomSelect
+                            value={language}
+                            onChange={setLanguage}
+                            options={[
+                                { value: 'English', label: 'English' },
+                                { value: 'Bahasa Indonesia', label: 'Bahasa Indonesia' }
+                            ]}
+                            placeholder="Language"
+                            className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] text-black/60 dark:text-white/60"
+                            dropdownClassName="min-w-[150px]"
+                        />
                         <div className="flex space-x-2">
                             <div id="theme-switcher" className="flex p-1 rounded-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] shadow-sm">
                                 <button id="system-btn" onClick={() => changeTheme('system')}
