@@ -41,11 +41,23 @@ class UserController extends Controller
         return "user_action_code_{$actorId}_for_{$targetId}_{$action}";
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = \App\Models\User::orderBy('created_at', 'desc')->get();
+        $query = \App\Models\User::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
+
         return inertia('Users/Index', [
-            'users' => $users
+            'users' => $users,
+            'filters' => $request->only(['search'])
         ]);
     }
 

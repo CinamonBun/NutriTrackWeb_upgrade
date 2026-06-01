@@ -36,14 +36,24 @@ class CommunityModerationController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->ensureAdmin();
 
-        $posts = CommunityPost::with(['user:id,name,email', 'moderator:id,name'])
-            ->withCount(['comments', 'likes', 'reports'])
-            ->latest()
-            ->get();
+        $postsQuery = CommunityPost::with(['user:id,name,email', 'moderator:id,name'])
+            ->withCount(['comments', 'likes', 'reports']);
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $postsQuery->where(function ($q) use ($search) {
+                $q->where('content', 'like', "%{$search}%")
+                  ->orWhereHas('user', function ($userQuery) use ($search) {
+                      $userQuery->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $posts = $postsQuery->latest()->paginate(10)->withQueryString();
 
         $reports = CommunityReport::with(['reporter:id,name', 'reviewer:id,name'])
             ->where('status', 'pending')
@@ -116,7 +126,7 @@ class CommunityModerationController extends Controller
             'moderated_at' => now(),
         ]);
 
-        $this->logModeration('community.post.moderated', $post->user_id, [
+        $this->logModeration('Moderated Post', $post->user_id, [
             'post_id' => $post->id,
             'old' => $oldStatus,
             'new' => $validated['status'],

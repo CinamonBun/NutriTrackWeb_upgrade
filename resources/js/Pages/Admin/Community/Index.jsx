@@ -9,6 +9,8 @@ import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import CustomSelect from '@/Components/CustomSelect';
+import Pagination from '@/Components/Pagination';
+import SearchInput from '@/Components/SearchInput';
 
 const STATUS_STYLES = {
     active: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
@@ -22,7 +24,7 @@ const STATUS_LABELS = {
     removed: 'Dihapus',
 };
 
-export default function Index({ posts, reports, guidelines, stats, reasonLabels }) {
+export default function Index({ posts, reports, guidelines, stats, reasonLabels, filters }) {
     const { flash } = usePage().props;
     const [activeTab, setActiveTab] = useState('posts');
     const [moderatingPost, setModeratingPost] = useState(null);
@@ -191,8 +193,12 @@ export default function Index({ posts, reports, guidelines, stats, reasonLabels 
                     </div>
 
                     {activeTab === 'posts' && (
-                        <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-2xl overflow-hidden">
-                            <div className="overflow-x-auto">
+                        <div className="space-y-4">
+                            <div className="flex justify-end">
+                                <SearchInput initialValue={filters?.search} routeName="admin.community.index" placeholder="Cari postingan atau penulis..." />
+                            </div>
+                            <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-2xl overflow-hidden">
+                                <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b border-[#cccccc] dark:border-[#404040] bg-neutral-50 dark:bg-neutral-900/50">
@@ -204,7 +210,7 @@ export default function Index({ posts, reports, guidelines, stats, reasonLabels 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {posts.map((post) => (
+                                        {posts.data.map((post) => (
                                             <tr key={post.id} className="border-b border-[#cccccc] dark:border-[#404040] last:border-0">
                                                 <td className="p-4">
                                                     <p className="font-medium">{post.user?.name}</p>
@@ -245,7 +251,7 @@ export default function Index({ posts, reports, guidelines, stats, reasonLabels 
                                                 </td>
                                             </tr>
                                         ))}
-                                        {posts.length === 0 && (
+                                        {posts.data.length === 0 && (
                                             <tr>
                                                 <td colSpan="5" className="p-8 text-center opacity-60">Belum ada postingan.</td>
                                             </tr>
@@ -254,6 +260,8 @@ export default function Index({ posts, reports, guidelines, stats, reasonLabels 
                                 </table>
                             </div>
                         </div>
+                        <Pagination links={posts.links} />
+                    </div>
                     )}
 
                     {activeTab === 'reports' && (

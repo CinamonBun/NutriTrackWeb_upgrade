@@ -2,6 +2,58 @@ import React, { useState } from 'react';
 import CustomSelect from '@/Components/CustomSelect';
 import { Link } from '@inertiajs/react';
 import { useTheme } from '@/Contexts/ThemeContext';
+import { motion } from 'framer-motion';
+
+const footerThemeOptions = [
+    { key: 'system', icon: 'system' },
+    { key: 'light', icon: 'light' },
+    { key: 'dark', icon: 'dark' },
+];
+
+function FooterThemeIcon({ type, isActive }) {
+    const commonProps = {
+        xmlns: "http://www.w3.org/2000/svg",
+        fill: "none",
+        viewBox: "0 0 24 24",
+        strokeWidth: "1.5",
+        stroke: "currentColor",
+        className: "w-5 h-5",
+    };
+
+    if (type === 'system') {
+        return (
+            <svg {...commonProps}>
+                <path strokeLinecap="round" strokeLinejoin="round"
+                    d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+            </svg>
+        );
+    }
+
+    if (type === 'light') {
+        return (
+            <motion.svg
+                {...commonProps}
+                animate={isActive ? { rotate: 180 } : { rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+            >
+                <path strokeLinecap="round" strokeLinejoin="round"
+                    d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+            </motion.svg>
+        );
+    }
+
+    return (
+        <motion.svg
+            {...commonProps}
+            strokeWidth="2"
+            animate={isActive ? { rotate: -20, scale: 1.1 } : { rotate: 0, scale: 1 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        >
+            <path strokeLinecap="round" strokeLinejoin="round"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </motion.svg>
+    );
+}
 
 export default function Footer() {
     const { theme, changeTheme } = useTheme();
@@ -78,34 +130,42 @@ export default function Footer() {
                             dropdownClassName="min-w-[150px]"
                         />
                         <div className="flex space-x-2">
-                            <div id="theme-switcher" className="flex p-1 rounded-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] shadow-sm">
-                                <button id="system-btn" onClick={() => changeTheme('system')}
-                                    className={`flex items-center justify-center p-2 rounded-full transition-colors duration-200 ${theme === 'system' ? 'bg-black/10 dark:bg-white/10 opacity-100' : 'opacity-50 hover:bg-black/5 dark:hover:bg-white/5'}`}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
-                                    </svg>
-                                </button>
-
-                                <button id="light-btn" onClick={() => changeTheme('light')}
-                                    className={`flex items-center justify-center p-2 rounded-full transition-colors duration-200 ${theme === 'light' ? 'bg-black/10 dark:bg-white/10 opacity-100' : 'opacity-50 hover:bg-black/5 dark:hover:bg-white/5'}`}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                            d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                                    </svg>
-                                </button>
-
-                                <button id="dark-btn" onClick={() => changeTheme('dark')}
-                                    className={`flex items-center justify-center p-2 rounded-full transition-colors duration-200 ${theme === 'dark' ? 'bg-black/10 dark:bg-white/10 opacity-100' : 'opacity-50 hover:bg-black/5 dark:hover:bg-white/5'}`}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                    </svg>
-                                </button>
-                            </div>
+                            <motion.div
+                                id="theme-switcher"
+                                className="flex p-1 rounded-full bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] shadow-sm overflow-hidden"
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                            >
+                                {footerThemeOptions.map((opt) => {
+                                    const isActive = theme === opt.key;
+                                    return (
+                                        <motion.button
+                                            key={opt.key}
+                                            id={`footer-${opt.key}-btn`}
+                                            type="button"
+                                            onClick={() => changeTheme(opt.key)}
+                                            className="relative flex items-center justify-center p-2 rounded-full"
+                                            whileHover={{ scale: 1.15 }}
+                                            whileTap={{ scale: 0.85 }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                            style={{ opacity: isActive ? 1 : 0.5 }}
+                                        >
+                                            {isActive && (
+                                                <motion.span
+                                                    layoutId="footer-theme-pill"
+                                                    className="absolute inset-0 rounded-full bg-black/10 dark:bg-white/10"
+                                                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                                                />
+                                            )}
+                                            <span className="relative z-10">
+                                                <FooterThemeIcon type={opt.icon} isActive={isActive} />
+                                            </span>
+                                        </motion.button>
+                                    );
+                                })}
+                            </motion.div>
                         </div>
                     </div>
                 </div>

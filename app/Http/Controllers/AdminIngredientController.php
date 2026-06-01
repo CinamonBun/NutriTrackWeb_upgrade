@@ -12,11 +12,20 @@ use App\Imports\IngredientsImport;
 
 class AdminIngredientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $ingredients = Ingredient::orderBy('name')->get();
+        $query = Ingredient::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $ingredients = $query->orderBy('name')->paginate(15)->withQueryString();
+
         return Inertia::render('Ingredients/Index', [
-            'ingredients' => $ingredients
+            'ingredients' => $ingredients,
+            'filters' => $request->only(['search'])
         ]);
     }
 

@@ -29,10 +29,10 @@ export default function AdminHeader() {
                             <div className="hidden md:flex items-center space-x-4 border-l border-neutral-300 dark:border-neutral-600 pl-6">
                                 <div className="flex items-center space-x-2">
                                     {user.avatar_url ? (
-                                        <img 
-                                            src={user.avatar_url} 
-                                            alt={user.name} 
-                                            className="w-8 h-8 rounded-full object-cover" 
+                                        <img
+                                            src={user.avatar_url}
+                                            alt={user.name}
+                                            className="w-8 h-8 rounded-full object-cover"
                                         />
                                     ) : (
                                         <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">
@@ -55,8 +55,6 @@ export default function AdminHeader() {
                         <li><Link href="/meals" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
                         <li><Link href="/ingredients" className="transform transition-colors hover:text-[#3dccc7]">Ingredients</Link></li>
                         <li><Link href="/admin/community" className="transform transition-colors hover:text-[#3dccc7]">Community</Link></li>
-                        <li><Link href="/insights" className="transform transition-colors hover:text-[#3dccc7]">Insights</Link></li>
-                        <li><Link href="/settings" className="transform transition-colors hover:text-[#3dccc7]">Settings</Link></li>
                     </ul>
 
                     <div className="md:hidden">
@@ -79,8 +77,6 @@ export default function AdminHeader() {
                             <li><Link href="/meals" className="transform transition-colors hover:text-[#3dccc7]">Meals</Link></li>
                             <li><Link href="/ingredients" className="transform transition-colors hover:text-[#3dccc7]">Ingredients</Link></li>
                             <li><Link href="/admin/community" className="transform transition-colors hover:text-[#3dccc7]">Community</Link></li>
-                            <li><Link href="/insights" className="transform transition-colors hover:text-[#3dccc7]">Insights</Link></li>
-                            <li><Link href="/settings" className="transform transition-colors hover:text-[#3dccc7]">Settings</Link></li>
                         </div>
                         <div className="flex flex-col gap-3 py-3 border-t border-neutral-200 dark:border-neutral-700">
                             <Link href="/signin"

@@ -3,8 +3,11 @@ import { Head, useForm, usePage, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import axios from 'axios';
 import Modal from '@/Components/Modal';
+import Pagination from '@/Components/Pagination';
+import SearchInput from '@/Components/SearchInput';
+import CustomSelect from '@/Components/CustomSelect';
 
-export default function Index({ users }) {
+export default function Index({ users, filters }) {
     const { auth } = usePage().props;
     const currentUser = auth.user;
 
@@ -262,9 +265,12 @@ export default function Index({ users }) {
                             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight opacity-90">Users Management</h1>
                             <p className="mt-2 text-lg opacity-60 dark:opacity-70">Manage user accounts and roles.</p>
                         </div>
-                        <button onClick={() => setIsCreateModalOpen(true)} className="px-5 py-2.5 bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium rounded-xl transition-colors shadow-sm">
-                            + Add User
-                        </button>
+                        <div className="flex flex-col sm:flex-row gap-4 items-center">
+                            <SearchInput initialValue={filters?.search} routeName="users.index" placeholder="Search by name or email..." />
+                            <button onClick={() => setIsCreateModalOpen(true)} className="whitespace-nowrap px-5 py-2.5 bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium rounded-xl transition-colors shadow-sm">
+                                + Add User
+                            </button>
+                        </div>
                     </div>
 
                     <div className="bg-[#ffffff] dark:bg-[#2a2a2a] border border-[#cccccc] dark:border-[#404040] rounded-2xl shadow-sm overflow-hidden transition-colors">
@@ -278,7 +284,7 @@ export default function Index({ users }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {users.map((user) => (
+                                    {users.data.map((user) => (
                                         <tr key={user.id} className="border-b border-neutral-100 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center space-x-3">
@@ -310,6 +316,8 @@ export default function Index({ users }) {
                             </table>
                         </div>
                     </div>
+                    
+                    <Pagination links={users.links} />
                 </div>
             </section>
 
@@ -337,35 +345,16 @@ export default function Index({ users }) {
                     </div>
                     <div className="relative">
                         <label className="block text-sm font-medium mb-1">Role</label>
-                        <button
-                            type="button"
-                            onClick={() => setIsCreateRoleOpen(!isCreateRoleOpen)}
-                            className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all flex justify-between items-center"
-                        >
-                            <span className="capitalize">{createData.role}</span>
-                            <svg className={`w-4 h-4 transition-transform duration-200 ${isCreateRoleOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        {isCreateRoleOpen && (
-                            <div className="absolute z-50 top-full mt-2 w-full bg-white dark:bg-[#2a2a2a] border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl overflow-hidden fade-in">
-                                <button
-                                    type="button"
-                                    onClick={() => { setCreateData('role', 'user'); setIsCreateRoleOpen(false); }}
-                                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${createData.role === 'user' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
-                                >
-                                    User
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => { setCreateData('role', 'admin'); setIsCreateRoleOpen(false); }}
-                                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${createData.role === 'admin' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
-                                >
-                                    Admin
-                                </button>
-                            </div>
-                        )}
+                        <CustomSelect
+                            value={createData.role}
+                            onChange={(val) => setCreateData('role', val)}
+                            options={[
+                                { value: 'user', label: 'User' },
+                                { value: 'admin', label: 'Admin' }
+                            ]}
+                            className="w-full"
+                            dropdownClassName="w-full"
+                        />
                     </div>
                     <div className="pt-2 flex justify-end space-x-3">
                         <button type="button" onClick={() => setIsCreateModalOpen(false)} className="px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">Cancel</button>
@@ -410,35 +399,16 @@ export default function Index({ users }) {
                     </div>
                     <div className="relative">
                         <label className="block text-sm font-medium mb-1">Role</label>
-                        <button
-                            type="button"
-                            onClick={() => setIsEditRoleOpen(!isEditRoleOpen)}
-                            className="w-full px-4 py-2 bg-transparent border border-neutral-300 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-[#3dccc7] focus:border-transparent outline-none transition-all flex justify-between items-center"
-                        >
-                            <span className="capitalize">{editData.role}</span>
-                            <svg className={`w-4 h-4 transition-transform duration-200 ${isEditRoleOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        {isEditRoleOpen && (
-                            <div className="absolute z-50 top-full mt-2 w-full bg-white dark:bg-[#2a2a2a] border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl overflow-hidden fade-in">
-                                <button
-                                    type="button"
-                                    onClick={() => { setEditData('role', 'user'); setIsEditRoleOpen(false); }}
-                                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${editData.role === 'user' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
-                                >
-                                    User
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => { setEditData('role', 'admin'); setIsEditRoleOpen(false); }}
-                                    className={`w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${editData.role === 'admin' ? 'bg-[#3dccc7]/10 text-[#3dccc7]' : ''}`}
-                                >
-                                    Admin
-                                </button>
-                            </div>
-                        )}
+                        <CustomSelect
+                            value={editData.role}
+                            onChange={(val) => setEditData('role', val)}
+                            options={[
+                                { value: 'user', label: 'User' },
+                                { value: 'admin', label: 'Admin' }
+                            ]}
+                            className="w-full"
+                            dropdownClassName="w-full"
+                        />
                     </div>
                     {isEditDirty && editNeedsOtp && editOtpStep === 'sent' && (
                         <div>

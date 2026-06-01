@@ -8,8 +8,10 @@ import DangerButton from '@/Components/DangerButton';
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
+import Pagination from '@/Components/Pagination';
+import SearchInput from '@/Components/SearchInput';
 
-export default function Index({ ingredients }) {
+export default function Index({ ingredients, filters }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -114,36 +116,41 @@ export default function Index({ ingredients }) {
 
             <section className="pt-28 pb-12 md:pt-36 min-h-[60vh]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center mb-8">
+                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
                         <div>
                             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight opacity-90">Ingredients</h1>
                             <p className="mt-2 text-lg opacity-60 dark:opacity-70">Manage your ingredients and track nutrition information.</p>
                         </div>
-                        <div className="flex gap-3">
-                            <button
-                                onClick={handleExport}
-                                className="px-5 py-2.5 bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                </svg>
-                                Export
-                            </button>
-                            <button
-                                onClick={() => setIsImportModalOpen(true)}
-                                className="px-5 py-2.5 bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-                                </svg>
-                                Import
-                            </button>
-                            <button
-                                onClick={() => openModal()}
-                                className="px-5 py-2.5 bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2"
-                            >
-                                <span>+ Add Ingredient</span>
-                            </button>
+                        <div className="flex flex-col md:flex-row gap-4 items-start md:items-center w-full lg:w-auto">
+                            <div className="w-full md:w-auto">
+                                <SearchInput initialValue={filters?.search} routeName="admin.ingredients.index" placeholder="Search ingredients..." />
+                            </div>
+                            <div className="flex flex-wrap gap-3 w-full md:w-auto">
+                                <button
+                                    onClick={handleExport}
+                                    className="px-4 sm:px-5 py-2.5 bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2 flex-1 sm:flex-none justify-center"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                    </svg>
+                                    <span className="hidden sm:inline">Export</span>
+                                </button>
+                                <button
+                                    onClick={() => setIsImportModalOpen(true)}
+                                    className="px-4 sm:px-5 py-2.5 bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2 flex-1 sm:flex-none justify-center"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                    </svg>
+                                    <span className="hidden sm:inline">Import</span>
+                                </button>
+                                <button
+                                    onClick={() => openModal()}
+                                    className="px-4 sm:px-5 py-2.5 bg-[#3dccc7] hover:bg-[#68d8d6] text-white font-medium rounded-xl transition-colors shadow-sm flex items-center gap-2 flex-1 sm:flex-none justify-center whitespace-nowrap"
+                                >
+                                    <span>+ Add</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -161,7 +168,7 @@ export default function Index({ ingredients }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {ingredients.map((item) => (
+                                    {ingredients.data.map((item) => (
                                         <tr key={item.id} className="border-b border-neutral-100 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center space-x-3">
@@ -189,7 +196,7 @@ export default function Index({ ingredients }) {
                                             </td>
                                         </tr>
                                     ))}
-                                    {ingredients.length === 0 && (
+                                    {ingredients.data.length === 0 && (
                                         <tr>
                                             <td colSpan="6" className="p-8 text-center opacity-60">No ingredients found.</td>
                                         </tr>
@@ -198,6 +205,8 @@ export default function Index({ ingredients }) {
                             </table>
                         </div>
                     </div>
+                    
+                    <Pagination links={ingredients.links} />
                 </div>
             </section>
 

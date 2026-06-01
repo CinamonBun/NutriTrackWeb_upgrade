@@ -19,12 +19,12 @@ class DashboardController extends Controller
         $totalIngredients = Ingredient::count();
         $totalFoodLogs = FoodLog::count();
         
-        // Active users in last 24h (those who logged food)
-        $activeUsersCount = DB::table('food_logs')
-            ->join('meal_logs', 'food_logs.meal_log_id', '=', 'meal_logs.id')
-            ->where('meal_logs.created_at', '>=', Carbon::now()->subDay())
-            ->distinct('meal_logs.user_id')
-            ->count('meal_logs.user_id');
+        // Active users in last 24h (those who logged in recently)
+        $activeUsersCount = DB::table('sessions')
+            ->whereNotNull('user_id')
+            ->where('last_activity', '>=', Carbon::now()->subDay()->timestamp)
+            ->distinct('user_id')
+            ->count('user_id');
 
         // 2. Growth Data (Last 7 Days)
         $growthData = User::selectRaw('DATE(created_at) as date, count(*) as count')
