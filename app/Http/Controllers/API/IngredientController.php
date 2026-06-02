@@ -45,6 +45,7 @@ class IngredientController extends Controller
             'protein' => 'required|numeric|min:0',
             'carbs' => 'required|numeric|min:0',
             'fat' => 'required|numeric|min:0',
+            'gout_level' => 'nullable|in:low,medium,high',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -70,6 +71,7 @@ class IngredientController extends Controller
             'protein' => $request->protein,
             'carbs' => $request->carbs,
             'fat' => $request->fat,
+            'gout_level' => $request->gout_level ?? 'low',
             'image' => $imagePath,
         ]);
 
@@ -102,6 +104,7 @@ class IngredientController extends Controller
             'protein' => 'sometimes|numeric|min:0',
             'carbs' => 'sometimes|numeric|min:0',
             'fat' => 'sometimes|numeric|min:0',
+            'gout_level' => 'sometimes|in:low,medium,high',
         ]);
 
         if ($validator->fails()) {

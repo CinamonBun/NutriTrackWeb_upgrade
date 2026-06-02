@@ -30,13 +30,8 @@ class FoodLogController extends Controller
 
             if ($foodLog->type === 'ingredient' && $foodLog->ingredient) {
                 $caloriesToSubtract = ($foodLog->ingredient->calories_per_100g / 100) * $foodLog->quantity;
-            } elseif ($foodLog->type === 'recipe' && $foodLog->recipe) {
-                $totalRecipeCalories = 0;
-                foreach ($foodLog->recipe->ingredients as $ri) {
-                    $ingCalories = ($ri->ingredient->calories_per_100g / 100) * $ri->quantity_gram;
-                    $totalRecipeCalories += $ingCalories;
-                }
-                $caloriesToSubtract = $totalRecipeCalories * $foodLog->quantity;
+            } elseif ($foodLog->type === 'recipe') {
+                $caloriesToSubtract = (float) ($foodLog->calories ?? 0);
             } elseif ($foodLog->type === 'manual') {
                 $caloriesToSubtract = $foodLog->calories * $foodLog->quantity;
             }

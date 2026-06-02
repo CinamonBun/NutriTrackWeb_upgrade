@@ -48,6 +48,7 @@ class IngredientFactory extends Factory
                 'protein' => 26,
                 'carbs' => 0,
                 'fat' => 15,
+                'gout_level' => 'high',
             ],
             [
                 'name' => 'Kuah Rawon',
@@ -69,6 +70,7 @@ class IngredientFactory extends Factory
             'protein' => $ingredient['protein'],
             'carbs' => $ingredient['carbs'],
             'fat' => $ingredient['fat'],
+            'gout_level' => $ingredient['gout_level'] ?? 'low',
         ];
     }
 }

@@ -8,10 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('ingredients', function (Blueprint $table) {
-            $table->string('image')->nullable()->after('name');
-            // sesuaikan 'after' dengan kolom yang ada
-        });
+        if (!Schema::hasColumn('ingredients', 'image')) {
+            Schema::table('ingredients', function (Blueprint $table) {
+                $table->string('image')->nullable()->after('name');
+            });
+        }
     }
 
     public function down(): void

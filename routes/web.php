@@ -66,6 +66,16 @@ Route::middleware('auth')->group(function () {
     Route::get('ingredients-export', [\App\Http\Controllers\AdminIngredientController::class, 'export'])->name('admin.ingredients.export');
     Route::post('ingredients-import', [\App\Http\Controllers\AdminIngredientController::class, 'import'])->name('admin.ingredients.import');
 
+    // Recipe Management (UI like Ingredients)
+    Route::resource('recipes', \App\Http\Controllers\AdminRecipeController::class)->only([
+        'index', 'store', 'update', 'destroy'
+    ])->names([
+        'index' => 'admin.recipes.index',
+        'store' => 'admin.recipes.store',
+        'update' => 'admin.recipes.update',
+        'destroy' => 'admin.recipes.destroy',
+    ]);
+
     Route::get('/settings', function () {
         return Inertia::render('Admin/Settings');
     })->name('admin.settings');

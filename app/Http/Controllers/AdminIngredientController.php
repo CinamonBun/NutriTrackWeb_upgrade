@@ -54,6 +54,7 @@ class AdminIngredientController extends Controller
             'protein' => 'required|numeric|min:0',
             'carbs' => 'required|numeric|min:0',
             'fat' => 'required|numeric|min:0',
+            'gout_level' => 'required|in:low,medium,high',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -75,6 +76,7 @@ class AdminIngredientController extends Controller
             'protein' => 'required|numeric|min:0',
             'carbs' => 'required|numeric|min:0',
             'fat' => 'required|numeric|min:0',
+            'gout_level' => 'required|in:low,medium,high',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 

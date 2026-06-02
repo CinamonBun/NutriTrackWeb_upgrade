@@ -8,6 +8,7 @@ use App\Models\MealLog;
 use App\Models\FoodLog;
 use App\Models\Ingredient;
 use App\Models\Recipe;
+use App\Services\RecipeNutritionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -108,19 +109,13 @@ class MealLogController extends Controller
                     $recipe = Recipe::with('ingredients.ingredient')
                         ->findOrFail($food['recipe_id']);
 
-                    foreach ($recipe->ingredients as $ri) {
-                        $factor = $ri->quantity_gram / 100;
+                    $nutrition = app(RecipeNutritionService::class)
+                        ->calculateFromRecipeIngredients($recipe->ingredients, (float) $food['quantity']);
 
-                        $calories += $ri->ingredient->calories_per_100g * $factor;
-                        $protein += $ri->ingredient->protein * $factor;
-                        $fat += $ri->ingredient->fat * $factor;
-                        $carbohydrate += $ri->ingredient->carbs * $factor;
-                    }
-
-                    $calories *= $food['quantity'];
-                    $protein *= $food['quantity'];
-                    $fat *= $food['quantity'];
-                    $carbohydrate *= $food['quantity'];
+                    $calories = $nutrition['calories'];
+                    $protein = $nutrition['protein'];
+                    $fat = $nutrition['fat'];
+                    $carbohydrate = $nutrition['carbohydrate'];
                 }
 
                 // manual

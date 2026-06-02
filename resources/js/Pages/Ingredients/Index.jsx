@@ -10,6 +10,29 @@ import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import Pagination from '@/Components/Pagination';
 import SearchInput from '@/Components/SearchInput';
+import CustomSelect from '@/Components/CustomSelect';
+
+const GOUT_LEVEL_OPTIONS = [
+    { value: 'low', label: 'Low' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'high', label: 'High' },
+];
+
+const GOUT_LEVEL_STYLES = {
+    low: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+    medium: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+    high: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+};
+
+function GoutLevelBadge({ level }) {
+    const key = level || 'low';
+    const label = GOUT_LEVEL_OPTIONS.find((o) => o.value === key)?.label ?? key;
+    return (
+        <span className={`inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full capitalize ${GOUT_LEVEL_STYLES[key] || GOUT_LEVEL_STYLES.low}`}>
+            {label}
+        </span>
+    );
+}
 
 export default function Index({ ingredients, filters }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +51,7 @@ export default function Index({ ingredients, filters }) {
         protein: '',
         carbs: '',
         fat: '',
+        gout_level: 'low',
         image: null,
         _method: 'post'
     });
@@ -42,6 +66,7 @@ export default function Index({ ingredients, filters }) {
                 protein: ingredient.protein,
                 carbs: ingredient.carbs,
                 fat: ingredient.fat,
+                gout_level: ingredient.gout_level ?? 'low',
                 image: null,
                 _method: 'put'
             });
@@ -53,6 +78,7 @@ export default function Index({ ingredients, filters }) {
                 protein: '',
                 carbs: '',
                 fat: '',
+                gout_level: 'low',
                 image: null,
                 _method: 'post'
             });
@@ -164,6 +190,7 @@ export default function Index({ ingredients, filters }) {
                                         <th className="px-6 py-4 font-semibold text-sm">Protein (g)</th>
                                         <th className="px-6 py-4 font-semibold text-sm">Carbs (g)</th>
                                         <th className="px-6 py-4 font-semibold text-sm">Fat (g)</th>
+                                        <th className="px-6 py-4 font-semibold text-sm">Gout Level</th>
                                         <th className="px-6 py-4 font-semibold text-sm text-right">Actions</th>
                                     </tr>
                                 </thead>
@@ -186,6 +213,9 @@ export default function Index({ ingredients, filters }) {
                                             <td className="px-6 py-4 opacity-80">{item.protein}</td>
                                             <td className="px-6 py-4 opacity-80">{item.carbs}</td>
                                             <td className="px-6 py-4 opacity-80">{item.fat}</td>
+                                            <td className="px-6 py-4">
+                                                <GoutLevelBadge level={item.gout_level} />
+                                            </td>
                                             <td className="px-6 py-4 text-right space-x-2">
                                                 <button onClick={() => openModal(item)} className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium bg-[#3dccc7]/20 text-[#3dccc7] hover:bg-[#3dccc7]/30 rounded-lg transition-colors">
                                                     Edit
@@ -198,7 +228,7 @@ export default function Index({ ingredients, filters }) {
                                     ))}
                                     {ingredients.data.length === 0 && (
                                         <tr>
-                                            <td colSpan="6" className="p-8 text-center opacity-60">No ingredients found.</td>
+                                            <td colSpan="7" className="p-8 text-center opacity-60">No ingredients found.</td>
                                         </tr>
                                     )}
                                 </tbody>
@@ -227,6 +257,19 @@ export default function Index({ ingredients, filters }) {
                             required
                         />
                         <InputError message={errors.name} className="mt-2" />
+                    </div>
+
+                    <div className="relative">
+                        <InputLabel value="Gout Level" className="text-black dark:text-white" />
+                        <CustomSelect
+                            value={data.gout_level}
+                            onChange={(val) => setData('gout_level', val)}
+                            options={GOUT_LEVEL_OPTIONS}
+                            placeholder="Select gout level"
+                            className="w-full mt-1"
+                            dropdownClassName="w-full"
+                        />
+                        <InputError message={errors.gout_level} className="mt-2" />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -337,7 +380,7 @@ export default function Index({ ingredients, filters }) {
                 <form onSubmit={handleImportSubmit} className="p-6 space-y-4">
                     <p className="text-sm opacity-60">
                         Upload an Excel file (.xlsx, .xls) or CSV containing ingredient data.
-                        Required columns: <strong>name, calories_per_100g, protein, carbs, fat</strong>.
+                        Required columns: <strong>name, calories_per_100g, protein, carbs, fat</strong>. Optional: <strong>gout_level</strong> (low, medium, high).
                     </p>
                     <div>
                         <InputLabel htmlFor="import_file" value="Choose File" className="text-black dark:text-white" />

@@ -14,7 +14,7 @@ class IngredientsExport implements FromCollection, WithHeadings, WithMapping
     */
     public function collection()
     {
-        return Ingredient::select('name', 'calories_per_100g', 'protein', 'carbs', 'fat')->get();
+        return Ingredient::select('name', 'calories_per_100g', 'protein', 'carbs', 'fat', 'gout_level')->get();
     }
 
     public function headings(): array
@@ -25,6 +25,7 @@ class IngredientsExport implements FromCollection, WithHeadings, WithMapping
             'Protein (g)',
             'Carbs (g)',
             'Fat (g)',
+            'Gout Level',
         ];
     }
 
@@ -36,6 +37,7 @@ class IngredientsExport implements FromCollection, WithHeadings, WithMapping
             $ingredient->protein,
             $ingredient->carbs,
             $ingredient->fat,
+            $ingredient->gout_level ?? 'low',
         ];
     }
 }
