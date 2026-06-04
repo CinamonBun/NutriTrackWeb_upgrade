@@ -123,4 +123,79 @@ class ProfileController extends Controller
             'Profile updated successfully'
         );
     }
+
+    public function edit(Request $request)
+    {
+        return \Inertia\Inertia::render('Admin/Settings', [
+            'mustVerifyEmail' => $request->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail,
+            'status' => session('status'),
+        ]);
+    }
+
+    public function update(\App\Http\Requests\ProfileUpdateRequest $request)
+    {
+        $request->user()->fill($request->validated());
+
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();
+
+        if ($request->header('X-Inertia')) {
+            return back()->with('success', 'Profile updated successfully.');
+        }
+
+        return ApiResponse::success(
+            $request->user(),
+            'Profile updated successfully'
+        );
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = $request->user();
+
+        if ($user->avatar) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
+        }
+
+        $path = $request->file('avatar')->store('avatars', 'public');
+        $user->update(['avatar' => $path]);
+
+        if ($request->header('X-Inertia')) {
+            return back()->with('success', 'Avatar updated successfully.');
+        }
+
+        return ApiResponse::success(
+            $user->fresh(),
+            'Avatar updated successfully'
+        );
+    }
+
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        \Illuminate\Support\Facades\Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        if ($request->header('X-Inertia')) {
+            return redirect('/');
+        }
+
+        return ApiResponse::success(null, 'User deleted successfully');
+    }
 }
